@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      lang="ES">
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="TwitterStats"/>
+        <meta name="author" content="Master Inftel"/>
+        <link rel="shortcut icon" href="resources/img/favicon.png" />
+        <title>TwitterStats - Contacto</title>
+
+        <!-- Bootstrap Core CSS -->   
+        <link href="resources/css/bootstrap.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <!-- Custom CSS -->
+        <link href="resources/css/customcss.css"  rel="stylesheet"/>  
+    </h:head>
+    <h:body>
+        <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header"><a href="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse navbar-menubuilder">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="tab1"> <a href="tweetRelevantes.xhtml">Tweets + Relevantes</a>
+                        </li>
+                        <li class="tab2"><a href="repercusion.xhtml">Repercusión</a>
+                        </li>
+                        <li class="tab4"><a href="afinidad.xhtml">Afinidad</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="tab5"> <a class="active" href="faces/contacto.xhtml">Contacta con Nosotros</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="mapa" style="padding-left: 150px;">
+                <h1 class="textTwitter">Localización</h1>
+                <br/>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.315718545809!2d-4.480186384638191!3d36.71497807996624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd72f74b9f3606f1%3A0x9fa32cc2e6b0bbf9!2sUniversidad+de+M%C3%A1laga%3A+Escuela+T%C3%A9cnica+Superior+de+Ingenier%C3%ADa+Inform%C3%A1tica!5e0!3m2!1ses!2ses!4v1489412846084" width="800" height="450" frameborder="0" style="border:0" allowfullscreen = "true"></iframe>
+                <br/>
+            </div>
+            <br/>
+            <h:form>
+                <div style="padding-left: 150px; width: 60%;" class="form-group">
+                    <h1 class="textTwitter">Envíanos un Mensaje</h1>
+                    <br/>
+                    <div class="form-group">
+                        <label class="margintop5px" for="nombre">Nombre:</label>
+                        <h:inputText value="#{contactoBean.nombre}"  id="nombre"  class="form-control"  required="true" label="Nombre" style="margin-bottom: 15px;"/>
+                        <h:message class="alert alert-warning" style="padding: 2px" for="nombre"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="margintop5px" for="apellidos">Apellidos:</label>
+                        <h:inputText value="#{contactoBean.apellidos}"  id="apellidos"  class="form-control"  required="true" label="Apellidos" style="margin-bottom: 15px;"/>
+                        <h:message class="alert alert-warning" style="padding: 2px" for="apellidos"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="margintop5px" for="email">Email:</label>
+                        <h:inputText value="#{contactoBean.email}"  id="email"  class="form-control"  required="true" label="Email" style="margin-bottom: 15px;"/>
+                        <h:message class="alert alert-warning" style="padding: 2px" for="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="margintop5px" for="mensaje">Mensaje:</label>
+                        <h:inputTextarea id="mensaje" rows="5" value="#{contactoBean.mensaje}" class="form-control" required="true" label="Mensaje" style="resize:none; margin-bottom: 15px"/>
+                        <h:message class="alert alert-warning" style="padding: 2px;" for="mensaje"/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:commandButton  action="#{contactoBean.doEnviar()}" style="margin-right: 15px;" value="Enviar" class="btn btnAzul"></h:commandButton>
+                        <h:commandButton  action="#{contactoBean.doReset()}" value="Limpiar" class="btn btnVerde"></h:commandButton>
+                        <br/>
+                        <br/>
+                        <h:panelGroup rendered="#{contactoBean.enviado}">
+                            <div class="alert alert-success alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>¡Éxito!</strong> Su mensaje ha sido enviado. Muchas gracias.
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </h:form>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    </h:body>
+</html>
+

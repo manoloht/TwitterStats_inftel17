@@ -1,12 +1,55 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      lang="ES">
+
     <h:head>
-        <title>Facelet Title</title>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="TwitterStats"/>
+        <meta name="author" content="Master Inftel"/>
+        <link rel="shortcut icon" href="resources/img/favicon.png" />
+        <title>TwitterStats - Tweets + Relevantes</title>
+
+        <!-- Bootstrap Core CSS -->   
+        <link href="resources/css/bootstrap.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <!-- Custom CSS -->
+        <link href="resources/css/customcss.css"  rel="stylesheet"/>  
     </h:head>
     <h:body>
-        Hello from Facelets
+        <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header"><a href="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse navbar-menubuilder">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="tab1"> <a class="active" href="tweetRelevantes.xhtml">Tweets + Relevantes</a>
+                        </li>
+                        <li class="tab2"><a href="repercusion.xhtml">Repercusión</a>
+                        </li>
+                        <li class="tab4"><a href="afinidad.xhtml">Afinidad</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="tab5"> <a href="faces/contacto.xhtml">Contacta con Nosotros</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </h:body>
 </html>
-
