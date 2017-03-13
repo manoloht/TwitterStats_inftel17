@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13-mar-2017, 13:05:03
+    Author     : alberto carrion
+*/
+
+#custom-bootstrap-menu.navbar-default {
+    font-size: 14px;
+    background-color: rgb(50, 205, 253);
+    border-width: 1px;
+    border-radius: 4px;
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a {
+    color: white;
+    margin-top: 15px;
+    background-color: rgba(248, 248, 248, 0);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-toggle {
+    border-color: white;
+    margin-top: 22px;
+    background-color: white;
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-toggle .icon-bar {
+    background-color: rgb(50, 205, 253);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-toggle:hover .icon-bar,
+#custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #265a88;
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab1 >a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab1 >a:focus,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab1 >a.active{
+    color: red;
+    background-color: rgba(248, 248, 248, 0);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab2 >a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab2 >a:focus,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab2 >a.active{
+    color: rgb(34, 177, 76);
+    background-color: rgba(248, 248, 248, 0);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab3 >a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab3 >a:focus,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab3 >a.active{
+    color: rgb(255, 127, 39);
+    background-color: rgba(248, 248, 248, 0);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab4 >a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab4 >a:focus,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab4 >a.active{
+    color: #265a88;
+    background-color: rgba(248, 248, 248, 0);
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab5 >a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab5 >a:focus,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li.tab5 >a.active {
+    color: #265a88;
+    background-color: rgba(248, 248, 248, 0);
+}
+
+.fotoMenu{
+    height: 80px;
+}
+
+.btnAzul{
+    color: white;
+    background-color:  rgb(50, 205, 253);
+}
+
+.btnAzul:hover{
+    color: white;
+    background-color: #265a88;
+}
+
+.btnAzul:focus{
+    color: white;
+    background-color: #265a88;
+}
+
+.btnVerde{
+    color: white;
+    background-color: rgb(34, 177, 76);
+}
+
+.btnVerde:hover{
+    color: white;
+    background-color: rgb(27, 137, 60);
+}
+
+.btnVerde:focus{
+    color: white;
+    background-color: rgb(27, 137, 60);
+}
+
+.textTwitter{
+    color: rgb(50, 205, 253);
+}
