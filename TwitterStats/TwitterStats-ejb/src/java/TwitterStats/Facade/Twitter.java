@@ -5,9 +5,13 @@
  */
 package TwitterStats.Facade;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import twitter4j.Paging;
+import twitter4j.Query;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -31,63 +35,60 @@ public class Twitter {
         twitter = (new TwitterFactory(configuration)).getInstance();
     }
     
-    public List<Status> getTuitsCuenta(String user) throws TwitterException{
-        ResponseList res = twitter.getUserTimeline(user);
+    public List<Status> getTuitsCuenta(String user, int estudio, int cantidad) throws TwitterException{
+        ResponseList res;
         List<Status> lista = new ArrayList<>();
-        lista.addAll(res);
-        return lista;
+        for(int i=1; i<=estudio/200; i++){
+            res = twitter.getUserTimeline(user, new Paging(i,200));
+            lista.addAll(res);
+        }
+        
+        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        
+        if(lista.size()>cantidad){
+            return lista.subList(0, cantidad);
+        }else{
+            return lista;
+        }
     }
 
-    public List<Status> getTuitsCuenta(long id) throws TwitterException{
-        ResponseList res = twitter.getUserTimeline(id);
+    public List<Status> getTuitsCuenta(long id, int estudio, int cantidad) throws TwitterException{
+        ResponseList res;
         List<Status> lista = new ArrayList<>();
-        lista.addAll(res);
-        return lista;
-    }
-    
-    public List<Status> getTuitsCuentaFecha(String user, Date despuesDe, Date antesDe) throws TwitterException{
-        ResponseList res = twitter.getUserTimeline(user);
-        List<Status> lista = new ArrayList<>();
-        
-        for(Object tuit : res){
-            if(dentroRango(((Status)tuit).getCreatedAt(),despuesDe,antesDe)){
-                lista.add((Status)tuit);
-            }
+        for(int i=1; i<=estudio/200; i++){
+            res = twitter.getUserTimeline(id, new Paging(i,200));
+            lista.addAll(res);
         }
-        return lista;
-    }
-    
-    public List<Status> getTuitsCuentaFecha(long id, Date despuesDe, Date antesDe) throws TwitterException{
-        ResponseList res = twitter.getUserTimeline(id);
-        List<Status> lista = new ArrayList<>();
         
-        for(Object tuit : res){
-            if(dentroRango(((Status)tuit).getCreatedAt(),despuesDe,antesDe)){
-                lista.add((Status)tuit);
-            }
-        }
-        return lista;
-    }
-    
-    private boolean dentroRango(Date date, Date despuesDe, Date antesDe){
-        if(despuesDe == null){
-            if(date.before(antesDe)){
-                return true;
-            }else{
-                return false;
-            }
-        }else if(antesDe == null){
-            if(date.after(despuesDe)){
-                return true;
-            }else{
-                return false;
-            }
+        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        
+        if(lista.size()>cantidad){
+            return lista.subList(0, cantidad);
         }else{
-            if(date.after(despuesDe) && date.before(antesDe)){
-                return true;
-            }else{
-                return false;
-            }
+            return lista;
+        }
+    }
+    
+    public List<Status> getTuitsCuenta(String user, Date desde, Date hasta, int cantidad) throws TwitterException{
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+        Query q = new Query("from:"+user+" since:"+dt.format(desde)+" until:"+dt.format(hasta));
+        q.setCount(100);
+        List<Status> lista = new ArrayList<>();
+        List<Status> res = twitter.search(q).getTweets();
+        
+        while (res.size()>1 && lista.size()<3000){
+            lista.addAll(res);
+            
+            q.setMaxId(res.get(res.size()-1).getId());
+            res = twitter.search(q).getTweets();
+        }
+        
+        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        
+        if(lista.size()>cantidad){
+            return lista.subList(0, cantidad);
+        }else{
+            return lista;
         }
     }
 }
