@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="ES">
+      lang="ES"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <meta charset="utf-8"/>
@@ -51,31 +52,50 @@
                     <br/>
                     <div class="form-group">
                         <label class="margintop5px" for="elemento0">Introduce dos tweets o @cuentas </label>
-                        <h:inputText value="#{repercusionBean.elemento0}"  id="elemento0"  class="form-control"  required="true" label="Elemento0" style="margin-bottom: 15px;"/>
+                        <h:inputText value="#{repercusionBean.elemento0}"  id="elemento0"  class="form-control"  required="true" label="Elemento0" style="margin-bottom: 15px;" disabled="true" />
                         <h:message class="alert alert-warning" style="padding: 2px" for="elemento0"/>
                     </div>
                     <div class="form-group">
-                        <h:inputText value="#{repercusionBean.elemento1}"  id="elemento1"  class="form-control"  required="true" label="Elemento1" style="margin-bottom: 15px;"/>
+                        <h:inputText value="#{repercusionBean.elemento1}"  id="elemento1"  class="form-control"  required="true" label="Elemento1" style="margin-bottom: 15px;" disabled="true" />
                         <h:message class="alert alert-warning" style="padding: 2px" for="elemento1"/>
-                    </div>
+                    </div>                    
+                    
+                    <!-- Gráfico -->
+                    <div style="width: 850px; height: 350px; border: 1px solid #ddd" id="chart-container"></div>    
                     
                     
                     <div class="form-group">
-                        <h:commandButton  action="#{repercusionBean.doCalcular()}" style="margin-right: 15px;" value="Calcular" class="btn btnAzul"></h:commandButton>
-
-                        <h:commandButton onclick="show" style="margin-left: 15px;" value="Añadir" class="btn btnAzul "></h:commandButton>
-                    </div>            
-
-                </div>
+                        <h:commandButton  action="#{repercusionBean.doVolver()}" style="margin-right: 15px;" value="Volver" class="btn btnAzul"></h:commandButton>
+                    </div>
+                    
+                    <div>
+                        <input type="text" id="nElementos" value="#{repercusionBean.numElementos}" hidden="true"/> 
+                        <ui:repeat value="#{repercusionBean.elementos}" var="elemento" varStatus="estado" > 
+                            <input type="text" id="elemento_#{estado.index}" value="#{elemento}" hidden="true" /> 
+                            <input type="text" id="valor_#{estado.index}" value="#{repercusionBean.lista.get(elemento)}" hidden="true" />
+                        </ui:repeat>    
+                    </div>
+                </div> 
                
                 <br/>
                 <br/>
-                
             </h:form>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+        <script src="resources/js/RGraph.svg.common.core.js" type="text/javascript"></script>
+        <script src="resources/js/RGraph.svg.common.tooltips.js" type="text/javascript"></script>
+        <script src="resources/js/RGraph.svg.pie.js" type="text/javascript"></script>
+        <script src="resources/js/repercusionJS.js" type="text/javascript"></script>
+        <script>
+            $( document ).ready(function() {
+                
+                
+                //var elementos =[{nombre:elemento0, valor:val0},{nombre:'elemento2', valor:'val2'}];
+                //alert(elementos[1].nombre);
+                mostrarGrafica("Pepe");
+            });
+        </script>
     </h:body>
 </html>
