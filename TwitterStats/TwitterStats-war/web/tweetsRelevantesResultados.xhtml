@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       lang="ES">
+
 
     <h:head>
         <meta charset="utf-8"/>
@@ -12,7 +14,7 @@
         <meta name="description" content="TwitterStats"/>
         <meta name="author" content="Master Inftel"/>
         <link rel="shortcut icon" href="resources/img/favicon.png" />
-        <title>TwitterStats</title>
+        <title>TwitterStats - Tweets + Relevantes</title>
 
         <!-- Bootstrap Core CSS -->   
         <link href="resources/css/bootstrap.css" rel="stylesheet"/>
@@ -29,7 +31,7 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"><h:link outcome="tweetRelevantes.xhtml">Tweets + Relevantes</h:link>
+                        <li class="tab1"><h:link class="active" outcome="tweetRelevantes.xhtml">Tweets + Relevantes</h:link>
                         </li>
                         <li class="tab2"><h:link outcome="repercusion.xhtml">Repercusión</h:link>
                         </li>
@@ -43,14 +45,14 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
             
         </div>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
 
     </h:body>
 </html>
-
