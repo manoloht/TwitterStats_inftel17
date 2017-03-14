@@ -48,7 +48,7 @@
 
         <div class="container">
             <h:form>
-                <div style="padding-left: 150px;" class="form-group">
+                <div style="padding-left: 260px;" class="form-group">
                     <h1 class="textTwitter">Buscar cuenta (@ejemplo)</h1>
                     <br/>
                     <div class="row" style="width: 60%; padding-left: 17px;">
@@ -86,33 +86,50 @@
                         <input type="range" name="rangeNumMostrar" min="10" max="100" jsf:value="#{tweetRelevantesBean.numTweetsMostrar}" step="10" onchange="updateOutput2(this.value)"/>
                         <output type="text" id="rangeElegido2">#{tweetRelevantesBean.numTweetsMostrar}</output>
                     </div>
-                    <h:commandButton  action="#{tweetRelevantesBean.doBuscar()}" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                    <div id="divBotonNumEstudio">
+                        <h:commandButton id="botonNumEstudio" action="#{tweetRelevantesBean.doBuscarNumEstudio()}" onclick="showCargador()" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                    </div>
+                    <div id="divBotonFechas">
+                        <h:commandButton id="botonFechas" action="#{tweetRelevantesBean.doBuscarFechas()}" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                    </div>
+                    <div id="cargador" style="display: none">
+                        <img class="imgCargador" src="resources/img/loading.gif"></img>
+                    </div>
                 </div>
             </h:form>
+
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script>
 
+        <script>
                             function updateOutput1(val) {
                                 document.getElementById('rangeElegido1').value = val;
                             }
                             function updateOutput2(val) {
                                 document.getElementById('rangeElegido2').value = val;
                             }
+                            function showCargador() {
+                                $('#cargador').show();
+                            }
         </script>
 
         <script>
             $(document).ready(function () {
                 $("#divFechas").hide();
+                $("#divBotonFechas").hide();
                 $("#radio1").click(function () {
                     $("#divFechas").hide();
+                    $("#divBotonFechas").hide();
                     $("#divEstudio").show();
+                    $("#divBotonNumEstudio").show();
                 });
                 $("#radio2").click(function () {
                     $("#divFechas").show();
+                    $("#divBotonFechas").show();
                     $("#divEstudio").hide();
+                    $("#divBotonNumEstudio").hide();
                 });
             });
         </script>

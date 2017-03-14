@@ -5,13 +5,17 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Util.Twitter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import twitter4j.Status;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -29,6 +33,7 @@ public class TweetRelevantesBean {
     private int numTweetsMostrar = 10;
     private String fechaInicio;
     private String fechaFin;
+    private List<Status> listaTweets;  
 
     public TweetRelevantesBean() {
     }
@@ -73,22 +78,45 @@ public class TweetRelevantesBean {
         this.fechaFin = fechaFin;
     }
 
-    public void doBuscar() {
+    public List<Status> getListaTweets() {
+        return listaTweets;
+    }
 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-mm-yyyy");
+    public void setListaTweets(List<Status> listaTweets) {
+        this.listaTweets = listaTweets;
+    }
+    
+    public String doBuscarNumEstudio() {
+        
+        try {
+            Twitter twitter = new Twitter();
+            this.listaTweets = twitter.getTuitsCuenta(this.busqueda, this.numEstudio, this.numTweetsMostrar);
+            for(Status st : listaTweets){
+                System.out.println(st.getRetweetCount());
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "tweetsRelevantesResultados.xhtml";
+
+    }
+
+    public void doBuscarFechas() {
+        /*SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-mm-yyyy");
         try {
             if (!fechaInicio.equals("") && !fechaFin.equals("")) {
                 Date fechaIni = formatoFecha.parse(fechaInicio);
                 Date fechaF = formatoFecha.parse(fechaFin);
+                System.out.println("BUSCANDO POR FECHAS");
+                System.out.println("busqueda ---> " + busqueda);
                 System.out.println("fechaInicio ---> " + fechaIni.toString());
                 System.out.println("fechaFin ---> " + fechaF.toString());
+                System.out.println("numMostrar ---> " + numTweetsMostrar);
             }
-            System.out.println("busqueda ---> " + busqueda);
-            System.out.println("numEstudio ---> " + numEstudio);
-            System.out.println("numMostrar ---> " + numTweetsMostrar);
 
         } catch (ParseException ex) {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 }
