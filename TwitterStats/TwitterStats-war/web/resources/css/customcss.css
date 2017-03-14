@@ -235,3 +235,8 @@ and open the template in the editor.
     margin-left: 140px;
     height: 140px;
 }
+
+.spanInfoCuenta{
+    color: rgb(50, 205, 253);
+    font-size: 11pt;
+}

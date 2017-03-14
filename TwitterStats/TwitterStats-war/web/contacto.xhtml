@@ -88,6 +88,12 @@
                                 <strong>¡Éxito!</strong> Su mensaje ha sido enviado. Muchas gracias.
                             </div>
                         </h:panelGroup>
+                        <h:panelGroup rendered="#{contactoBean.error}">
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>¡Error!</strong> Su mensaje no ha sido enviado. Por favor, inténtelo de nuevo.
+                            </div>
+                        </h:panelGroup>
                     </div>
                 </div>
                 <br/>

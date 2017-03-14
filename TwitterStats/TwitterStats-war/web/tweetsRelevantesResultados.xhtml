@@ -47,12 +47,80 @@
         </div>
 
         <div class="container">
-            
+            <h:panelGroup rendered="#{tweetRelevantesBean.listaTweets.size() > 0}">
+                <div id="infoCuenta">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <img style="margin-left: 15px;" class="img-rounded" src="#{tweetRelevantesBean.cuentaTwitter.imgUsuario}" alt="imgPerfilTwitter"/>
+                        </div>
+                        <div class="col-lg-10">
+                            <span style="font-size: 14pt; padding-right: 5px;">#{tweetRelevantesBean.cuentaTwitter.nombreUsuario}</span>
+                            <br/>
+                            <span style="color: grey;">@#{tweetRelevantesBean.cuentaTwitter.nombreTwitterUsuario}</span>
+                            <br/>
+                            <span>#{tweetRelevantesBean.cuentaTwitter.descripcionUsuario}</span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div style="padding-left: 15px;" class="row">
+                        <div class="col-lg-1" align="center">
+                            <span class="spanInfoCuenta">Seguidores</span>
+                            <br/>
+                            <span>#{tweetRelevantesBean.cuentaTwitter.numSeguidores}</span>
+                        </div>
+                        <div class="col-lg-1" align="center">
+                            <span class="spanInfoCuenta">Siguiendo</span>
+                            <br/>
+                            <span>#{tweetRelevantesBean.cuentaTwitter.numSiguiendo}</span>
+                        </div>
+                        <div class="col-lg-1" align="center">
+                            <span class="spanInfoCuenta">Me Gusta</span>
+                            <br/>
+                            <span>#{tweetRelevantesBean.cuentaTwitter.numMegusta}</span>
+                        </div>
+                        <div class="col-lg-1" align="center">
+                            <span class="spanInfoCuenta">Tweets</span>
+                            <br/>
+                            <span>#{tweetRelevantesBean.cuentaTwitter.numTweets}</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <h:dataTable value="#{tweetRelevantesBean.listaTweets}" var="tweet" class="table table-hover">
+                    <h:column>
+                        <div>
+                            <span style="padding-right: 7px; padding-bottom: 10px;" class="glyphicon glyphicon-calendar"></span><span>#{tweet.createdAt}</span>
+                            <br/>
+                            <span>#{tweet.text}</span>
+                            <br/>
+                            <br/>
+                            <div style="padding-left: 15px" class="row">
+                                <span>#{tweet.favoriteCount}</span> <span style="color: red; padding-right: 10px" class="glyphicon glyphicon-heart"></span>
+                                <span>#{tweet.retweetCount}</span> <span style="color: rgb(34, 177, 76);" class="glyphicon glyphicon-retweet"></span>
+                            </div>
+                            <br/>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+                <div align="center">
+                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Volver a Buscar" class="btn btnAzul"></h:link>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{tweetRelevantesBean.listaTweets.size() == 0}">
+                <div align="center">
+                    <div class="alert alert-warning" style="text-align: center">
+                        <strong>Información: </strong> No se han encontrado resultados
+                    </div>
+                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Volver a Buscar" class="btn btnAzul"></h:link>
+                </div>
+            </h:panelGroup>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
 
     </h:body>
 </html>
