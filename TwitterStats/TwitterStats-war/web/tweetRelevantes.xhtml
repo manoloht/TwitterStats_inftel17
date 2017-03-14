@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       lang="ES">
+
 
     <h:head>
         <meta charset="utf-8"/>
@@ -29,27 +31,91 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"> <a class="active" href="tweetRelevantes.xhtml">Tweets + Relevantes</a>
+                        <li class="tab1"><h:link class="active" outcome="tweetRelevantes.xhtml">Tweets + Relevantes</h:link>
                         </li>
-                        <li class="tab2"><a href="repercusion.xhtml">Repercusión</a>
+                        <li class="tab2"><h:link outcome="repercusion.xhtml">Repercusión</h:link>
                         </li>
-                        <li class="tab3"><a href="afinidad.xhtml">Afinidad</a>
+                        <li class="tab3"><h:link outcome="afinidad.xhtml">Afinidad</h:link>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="tab5"> <a href="faces/contacto.xhtml">Contacta con Nosotros</a>
+                        <li class="tab5"><h:link outcome="contacto.xhtml">Contacta con Nosotros</h:link>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
-            
+            <h:form>
+                <div style="padding-left: 150px;" class="form-group">
+                    <h1 class="textTwitter">Buscar cuenta (@ejemplo)</h1>
+                    <br/>
+                    <div class="row" style="width: 60%; padding-left: 17px;">
+                        <div class="form-group">
+                            <label for="busqueda">Introduce tu búsqueda:</label>
+                            <h:inputText value="#{tweetRelevantesBean.busqueda}"  id="busqueda"  class="form-control"  required="true" label="Búsqueda" style="margin-bottom: 15px;"/>
+                            <h:message class="alert alert-warning" style="padding: 2px" for="busqueda"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <label id="radio1" class="radio-inline" ><input type="radio" name="tipobusqueda" checked="true"/>Estudio de Tweets</label>
+                        <label id="radio2" class="radio-inline"><input type="radio" name="tipobusqueda"/>Fechas</label>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div>
+                        <div id="divEstudio">
+                            <label>Número de estudio de tweets</label>
+                            <div class="range range-primary" style="width: 57%;">
+                                <input type="range" name="rangeEstudio" min="200" max="3000" jsf:value="#{tweetRelevantesBean.numEstudio}" step="200" onchange="updateOutput1(this.value)"/>
+                                <output type="text" id="rangeElegido1">#{tweetRelevantesBean.numEstudio}</output>
+                            </div>
+                        </div>
+                        <div id="divFechas">
+                            <label>Fecha Inicio</label>
+                            <input class="form-control" style="width: 17%" type="date" name="fechainicio" step="1" min="01-01-2016" max="01-12-2017" jsf:value="#{tweetRelevantesBean.fechaInicio}"/>
+                            <label style="margin-top: 20px">Fecha Fin</label>
+                            <input class="form-control" style="width: 17%; margin-bottom: 15px" type="date" name="fechafin" step="1" min="01-01-2016" max="01-12-2017" jsf:value="#{tweetRelevantesBean.fechaFin}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <label>Número de tweets a mostrar</label>
+                    <div class="range range-primary" style="width: 57%;">
+                        <input type="range" name="rangeNumMostrar" min="10" max="100" jsf:value="#{tweetRelevantesBean.numTweetsMostrar}" step="10" onchange="updateOutput2(this.value)"/>
+                        <output type="text" id="rangeElegido2">#{tweetRelevantesBean.numTweetsMostrar}</output>
+                    </div>
+                    <h:commandButton  action="#{tweetRelevantesBean.doBuscar()}" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                </div>
+            </h:form>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+
+                            function updateOutput1(val) {
+                                document.getElementById('rangeElegido1').value = val;
+                            }
+                            function updateOutput2(val) {
+                                document.getElementById('rangeElegido2').value = val;
+                            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#divFechas").hide();
+                $("#radio1").click(function () {
+                    $("#divFechas").hide();
+                    $("#divEstudio").show();
+                });
+                $("#radio2").click(function () {
+                    $("#divFechas").show();
+                    $("#divEstudio").hide();
+                });
+            });
+        </script>
 
     </h:body>
 </html>

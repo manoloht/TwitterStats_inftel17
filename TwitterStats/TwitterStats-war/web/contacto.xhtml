@@ -29,15 +29,15 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"> <a href="tweetRelevantes.xhtml">Tweets + Relevantes</a>
+                        <li class="tab1"><h:link outcome="tweetRelevantes.xhtml">Tweets + Relevantes</h:link>
                         </li>
-                        <li class="tab2"><a href="repercusion.xhtml">Repercusión</a>
+                        <li class="tab2"><h:link outcome="repercusion.xhtml">Repercusión</h:link>
                         </li>
-                        <li class="tab3"><a href="afinidad.xhtml">Afinidad</a>
+                        <li class="tab3"><h:link outcome="afinidad.xhtml">Afinidad</h:link>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="tab5"> <a class="active" href="faces/contacto.xhtml">Contacta con Nosotros</a>
+                        <li class="tab5"><h:link class="active" outcome="contacto.xhtml">Contacta con Nosotros</h:link>
                         </li>
                     </ul>
                 </div>
@@ -76,7 +76,7 @@
                         <h:inputTextarea id="mensaje" rows="5" value="#{contactoBean.mensaje}" class="form-control" required="true" label="Mensaje" style="resize:none; margin-bottom: 15px"/>
                         <h:message class="alert alert-warning" style="padding: 2px;" for="mensaje"/>
                     </div>
-                    
+
                     <div class="form-group">
                         <h:commandButton  action="#{contactoBean.doEnviar()}" style="margin-right: 15px;" value="Enviar" class="btn btnAzul"></h:commandButton>
                         <h:commandButton  action="#{contactoBean.doReset()}" value="Limpiar" class="btn btnVerde"></h:commandButton>
