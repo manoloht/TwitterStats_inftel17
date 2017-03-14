@@ -5,10 +5,9 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Util.CuentaTwitter;
 import TwitterStats.Util.Twitter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +33,9 @@ public class TweetRelevantesBean {
     private String fechaInicio;
     private String fechaFin;
     private List<Status> listaTweets;  
-
+    private CuentaTwitter cuentaTwitter;
+    
+    
     public TweetRelevantesBean() {
     }
 
@@ -85,21 +86,38 @@ public class TweetRelevantesBean {
     public void setListaTweets(List<Status> listaTweets) {
         this.listaTweets = listaTweets;
     }
+
+    public CuentaTwitter getCuentaTwitter() {
+        return cuentaTwitter;
+    }
+
+    public void setCuentaTwitter(CuentaTwitter cuentaTwitter) {
+        this.cuentaTwitter = cuentaTwitter;
+    }
     
     public String doBuscarNumEstudio() {
-        
         try {
             Twitter twitter = new Twitter();
             this.listaTweets = twitter.getTuitsCuenta(this.busqueda, this.numEstudio, this.numTweetsMostrar);
-            for(Status st : listaTweets){
-                System.out.println(st.getRetweetCount());
+            
+            if(listaTweets.size()>0){
+                Status st = listaTweets.get(0);
+                this.cuentaTwitter = new CuentaTwitter();
+                this.cuentaTwitter.setImgUsuario(st.getUser().getProfileImageURL());
+                this.cuentaTwitter.setNombreUsuario(st.getUser().getName());
+                this.cuentaTwitter.setNombreTwitterUsuario(st.getUser().getScreenName());
+                this.cuentaTwitter.setDescripcionUsuario(st.getUser().getDescription());
+                this.cuentaTwitter.setNumSeguidores(st.getUser().getFollowersCount());
+                this.cuentaTwitter.setNumSiguiendo(st.getUser().getFriendsCount());
+                this.cuentaTwitter.setNumMegusta(st.getUser().getFavouritesCount());
+                this.cuentaTwitter.setNumTweets(st.getUser().getStatusesCount());
             }
+            
         } catch (TwitterException ex) {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.listaTweets = new ArrayList<>();
         }
-        
         return "tweetsRelevantesResultados.xhtml";
-
     }
 
     public void doBuscarFechas() {

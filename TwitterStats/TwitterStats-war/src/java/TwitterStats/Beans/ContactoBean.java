@@ -5,8 +5,12 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Util.Mail;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -19,13 +23,13 @@ public class ContactoBean {
     /**
      * Creates a new instance of ContactoBean
      */
-    
     private String nombre;
     private String apellidos;
     private String email;
     private String mensaje;
-    private boolean enviado = false;
-   
+    private boolean enviado;
+    private boolean error;
+
     public ContactoBean() {
     }
 
@@ -68,17 +72,34 @@ public class ContactoBean {
     public void setEnviado(boolean enviado) {
         this.enviado = enviado;
     }
-    
-    public void doReset(){
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public void doReset() {
         this.nombre = "";
         this.apellidos = "";
         this.email = "";
         this.mensaje = "";
     }
-    
-    public void doEnviar(){
-        //System.out.println(nombre + apellidos+ email +mensaje);
-        this.enviado = true;
+
+    public void doEnviar() {
+        try {
+            Mail mail = new Mail();
+            if (mail.enviarEmail(this.nombre, this.apellidos, this.email, this.mensaje)) {
+                this.enviado = true;
+                this.error = false;
+            }
+        } catch (MessagingException ex) {
+            this.enviado = false;
+            this.error = true;
+            Logger.getLogger(ContactoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
 }
