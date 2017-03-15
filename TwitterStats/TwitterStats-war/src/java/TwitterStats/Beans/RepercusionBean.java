@@ -5,14 +5,19 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Util.Twitter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -25,7 +30,7 @@ public class RepercusionBean implements Serializable {
     private List<String> elementos;
     private String elemento0;
     private String elemento1;
-    private Map porcentajes;
+    private Map<String, Double> porcentajes;
     private int numElementos = 2;
     private boolean anadir = true;
     private boolean eliminar = false;
@@ -103,15 +108,18 @@ public class RepercusionBean implements Serializable {
 
     public String doCalcular() {
 
+        Twitter twitter = new Twitter();
         porcentajes = new HashMap();
-        // Funcion de twitter de recuperar lista de diccionario
-        // porcentajes = repercusion(elementos);
-        porcentajes.put(elementos.get(0), 20);
-        porcentajes.put(elementos.get(1), 80);
-
-        // Numero de elementos de lista para la gráfica
-        //numElementos=this.elementos.size();
-        numElementos = 2;
+        try {
+            // Funcion de twitter de recuperar lista de diccionario
+            this.porcentajes = twitter.getRepercusion(this.elementos);
+            System.out.println(porcentajes);
+            // Numero de elementos de lista para la gráfica
+            numElementos = this.elementos.size();
+        } catch (TwitterException ex) {
+            Logger.getLogger(RepercusionBean.class.getName()).log(Level.SEVERE, null, ex);
+            porcentajes = new HashMap();
+        }
         return "resultadosRepercusion";
     }
 
