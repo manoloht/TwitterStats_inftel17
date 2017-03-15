@@ -43,21 +43,25 @@
     <h:body>
         <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
-                <div class="navbar-header"><a href="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></a>
+                <div class="navbar-header"><h:link outcome="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></h:link>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"><h:link class="active" outcome="tweetRelevantes.xhtml">Tweets + Relevantes</h:link>
+                        <li class="tab1"> <h:link class="active" outcome="tweetRelevantes" value="Tweets + Relevantes"/>
                         </li>
-                        <li class="tab2"><h:link outcome="repercusion.xhtml">Repercusión</h:link>
+                        <li class="tab2"><h:link outcome="repercusion" value="Repercusión" /> 
                         </li>
-                        <li class="tab3"><h:link outcome="afinidad.xhtml">Afinidad</h:link>
+                        <li class="tab3"><h:link outcome="afinidad" value="Afinidad" />
+                        </li>
+                        <li class="tab4"><h:link outcome="tendencias.xhtml" value="Tendencias"/>
+                        </li>
+                        <li class="tab1"><h:link outcome="historicos.xhtml" value="Históricos"/>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="tab5"><h:link outcome="contacto.xhtml">Contacta con Nosotros</h:link>
+                        <li class="tab5"> <h:link outcome="contacto" value="Contacta con Nosotros" />
                         </li>
                     </ul>
                 </div>
