@@ -5,26 +5,28 @@
  */
 package TwitterStats.Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author inftel06
  */
 @Named(value = "repercusionBean")
-@RequestScoped
-public class RepercusionBean {
+@SessionScoped
+public class RepercusionBean implements Serializable {
     
     private List<String> elementos;
     private String elemento0;
     private String elemento1;
-    private Map lista;
-    private int numElementos=0;
+    private Map porcentajes;
+    private int numElementos=2;
     
     /**
      * Creates a new instance of RepercusionBean
@@ -32,6 +34,15 @@ public class RepercusionBean {
     public RepercusionBean() {
     }
 
+    @PostConstruct
+    public void init(){
+        elementos = new ArrayList<>();
+        for(int i=0; i<numElementos; i++){
+            elementos.add("");
+        }
+
+    }
+    
     public List<String> getElementos() {
         return elementos;
     }
@@ -56,13 +67,15 @@ public class RepercusionBean {
         this.elemento1 = elemento1;
     }
 
-    public Map getLista() {
-        return lista;
+    public Map getPorcentajes() {
+        return porcentajes;
     }
 
-    public void setLista(Map lista) {
-        this.lista = lista;
+    public void setPorcentajes(Map porcentajes) {
+        this.porcentajes = porcentajes;
     }
+
+    
 
     public int getNumElementos() {
         return numElementos;
@@ -73,26 +86,32 @@ public class RepercusionBean {
     }
     
     
-    
     public String doCalcular(){
-        lista = new HashMap();
-        lista.put(this.elemento0, 60);
-        lista.put(this.elemento1, 40);
         
-        elementos = new ArrayList<String>();
-        this.elementos.add(this.elemento0);
-        this.elementos.add(this.elemento1);
-        numElementos=this.elementos.size();
+        porcentajes = new HashMap();
+        // Funcion de twitter de recuperar lista de diccionario
+        // diccionario = repercusion(elementos);
+        porcentajes.put(elementos.get(0), 20);
+        porcentajes.put(elementos.get(1), 80);
+        
+        // Numero de elementos de lista para la gráfica
+        //numElementos=this.elementos.size();
+        numElementos=2;
         return "resultadosRepercusion";
     }
+
     
     public String doVolver(){
-        this.elemento0="";
-        this.elemento1="";
+        this.numElementos=2;
+        this.init();
         
         return "repercusion";
     }
     
     
-    
+    public String doAgregarCampo(){
+        this.elementos.add("");
+        this.numElementos +=1;
+        return "repercusion";
+    }
 }

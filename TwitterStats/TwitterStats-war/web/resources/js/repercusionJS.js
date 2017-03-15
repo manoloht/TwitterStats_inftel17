@@ -5,7 +5,7 @@
  */
 
 
-function mostrarGrafica(cadena){
+function mostrarGrafica(){
     
     var max = parseInt($('#nElementos').val());
     var i;
@@ -38,5 +38,10 @@ function mostrarGrafica(cadena){
     }).roundRobin();
 }
 
+
+function agregarCuadro(){
+    alert("holaaa");
+    
+}
 
 
