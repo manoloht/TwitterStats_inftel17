@@ -9,13 +9,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -27,10 +30,10 @@ public class Twitter {
     
     public Twitter(){
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey("Y7czzxOoizactb9y3KNPoqlWT");
-        builder.setOAuthAccessToken("123586822-Cnp1B4LFOjlbetT7sBa4mvK8zodvapB5p3fOlpnC");
-        builder.setOAuthConsumerSecret("tCd9LJxXmsiChbLxXdzihWq4lFWAktFZsiNiBYOjA5LJ8cvaJA");
-        builder.setOAuthAccessTokenSecret("34becSxxMVUPrRq6LS5aixwsMXKzqNL02OmNNzg8NPhYc");
+        builder.setOAuthConsumerKey("4bUGil5YTghhAZj05wJZX0wjB");
+        builder.setOAuthAccessToken("330584281-bFRvETvWXnH7fb9acRMIIagP1oGQeMK0mv4RiIUB");
+        builder.setOAuthConsumerSecret("nZPD0wtVuQRmqSdyEnGN4d8TRv63BPlUvkVOAZSZ2O8DfDGwGX");
+        builder.setOAuthAccessTokenSecret("FGSC23QvIqBYRKleno9OQI3eBo8J54hZ5btpAf1jR2bYy");
         twitter4j.conf.Configuration configuration = builder.build();
         twitter = (new TwitterFactory(configuration)).getInstance();
     }
@@ -91,4 +94,68 @@ public class Twitter {
             return lista;
         }
     }
+    
+    public Map<String,Double> getRepercusion(List<String> entrada) throws TwitterException{
+        if(entrada.get(0).charAt(0)=='@'){
+            return getRepercusionCuentas(entrada);
+        }else{
+            return getRepercusionTuits(entrada);
+        }
+    }
+    
+    public Map<String,Double> getRepercusionCuentas(List<String> cuentas) throws TwitterException{
+        Map<String,Double> map = new HashMap<>();
+
+        for(int j=0; j<cuentas.size(); j++){
+            List<User> users = twitter.getFollowersList(cuentas.get(j).substring(1, cuentas.get(j).length()), -1,50);
+            map.put(cuentas.get(j),(double)twitter.getFollowersIDs(cuentas.get(j).substring(1, cuentas.get(j).length()), -1).getIDs().length);
+        
+            for (User user : users) {
+                map.put(cuentas.get(j), map.get(cuentas.get(j)) + user.getFollowersCount());
+            }
+        }
+            
+        double total = 0;
+
+        for(Map.Entry<String, Double> entry : map.entrySet()){
+            System.out.println(entry.getValue());
+            total = total + (double)entry.getValue();
+        }
+
+        System.out.println(total);
+
+        for(String key : map.keySet()){
+            map.put(key, (map.get(key)*100)/total);
+        }
+        
+        return map;
+    }
+    
+    public Map<String,Double> getRepercusionTuits(List<String> tuits) throws TwitterException{
+        Map<String,Double> map = new HashMap<>();
+
+        for(int j=0; j<tuits.size(); j++){
+            ResponseList<Status> statuses = twitter.getRetweets(Long.parseLong(tuits.get(j).split("/status/")[1]));
+            map.put("Tweet "+(j+1), (double) statuses.size());
+            
+            //List<Status> res = statuses.subList(0, 20);
+            
+            for (Status status : statuses) {
+                map.put("Tweet "+(j+1), map.get("Tweet "+(j+1)) + status.getUser().getFollowersCount());
+            }
+        }
+        
+        double total = 0;
+
+        for(Map.Entry<String, Double> entry : map.entrySet()){
+            total = total + (double)entry.getValue();
+        }
+
+        for(String key : map.keySet()){
+            map.put(key, (map.get(key)*100)/total);
+        }
+        
+        return map;
+    }
+    
 }
