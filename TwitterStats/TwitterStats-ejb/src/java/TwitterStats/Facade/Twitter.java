@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Stateful;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -29,6 +30,7 @@ import twitter4j.conf.ConfigurationBuilder;
  *
  * @author inftel06
  */
+@Stateful
 public class Twitter {
     twitter4j.Twitter twitter;
     
