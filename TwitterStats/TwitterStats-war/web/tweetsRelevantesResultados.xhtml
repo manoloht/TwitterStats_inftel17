@@ -4,8 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
       lang="ES">
-
 
     <h:head>
         <meta charset="utf-8"/>
@@ -21,7 +21,25 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
         <!-- Custom CSS -->
         <link href="resources/css/customcss.css"  rel="stylesheet"/>  
+
+        <style type="text/css">
+            .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+                background-color: rgb(184, 238, 254);
+                border: none;
+                height: 20px;
+            }
+            .ui-widget-content{
+                border: 1px solid rgb(163, 163, 163);
+                background-color: white;
+            }
+            .ui-datatable-scrollable-body::-webkit-scrollbar-thumb {
+                background-color: rgb(184, 238, 254);
+            }
+        </style>
+        
+        
     </h:head>
+
     <h:body>
         <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
@@ -83,28 +101,28 @@
                             <br/>
                             <span>#{tweetRelevantesBean.cuentaTwitter.numTweets}</span>
                         </div>
+                        <div class="col-lg-8">
+                            <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="float: right; margin-right: 15px; margin-top: 10px;" value="Realizar otra búsqueda" class="btn btnAzul"></h:link>
+                        </div>
                     </div>
                 </div>
                 <br/>
-                <h:dataTable value="#{tweetRelevantesBean.listaTweets}" var="tweet" class="table table-hover">
-                    <h:column>
-                        <div>
+                <br/>
+                <p:dataTable value="#{tweetRelevantesBean.listaTweets}" var="tweet" scrollable="true" scrollHeight="440">
+                    <p:column>
+                        <div style="margin-top: 10px;">
                             <span style="padding-right: 7px; padding-bottom: 10px;" class="glyphicon glyphicon-calendar"></span><span>#{tweet.createdAt}</span>
                             <br/>
                             <span>#{tweet.text}</span>
                             <br/>
                             <br/>
-                            <div style="padding-left: 15px" class="row">
+                            <div style="padding-left: 15px; margin-bottom: 10px" class="row">
                                 <span>#{tweet.favoriteCount}</span> <span style="color: red; padding-right: 10px" class="glyphicon glyphicon-heart"></span>
                                 <span>#{tweet.retweetCount}</span> <span style="color: rgb(34, 177, 76);" class="glyphicon glyphicon-retweet"></span>
                             </div>
-                            <br/>
                         </div>
-                    </h:column>
-                </h:dataTable>
-                <div align="center">
-                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Realizar otra búsqueda" class="btn btnAzul"></h:link>
-                </div>
+                    </p:column>
+                </p:dataTable>
                 <br/>
                 <br/>
                 <br/>
