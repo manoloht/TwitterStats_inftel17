@@ -7,7 +7,10 @@ package TwitterStats.Beans;
 
 import TwitterStats.Util.CuentaTwitter;
 import TwitterStats.Util.Twitter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,10 +35,9 @@ public class TweetRelevantesBean {
     private int numTweetsMostrar = 10;
     private String fechaInicio;
     private String fechaFin;
-    private List<Status> listaTweets;  
+    private List<Status> listaTweets;
     private CuentaTwitter cuentaTwitter;
-    
-    
+
     public TweetRelevantesBean() {
     }
 
@@ -94,13 +96,13 @@ public class TweetRelevantesBean {
     public void setCuentaTwitter(CuentaTwitter cuentaTwitter) {
         this.cuentaTwitter = cuentaTwitter;
     }
-    
+
     public String doBuscarNumEstudio() {
         try {
             Twitter twitter = new Twitter();
             this.listaTweets = twitter.getTuitsCuenta(this.busqueda, this.numEstudio, this.numTweetsMostrar);
-            
-            if(listaTweets.size()>0){
+
+            if (listaTweets.size() > 0) {
                 Status st = listaTweets.get(0);
                 this.cuentaTwitter = new CuentaTwitter();
                 this.cuentaTwitter.setImgUsuario(st.getUser().getProfileImageURL());
@@ -112,7 +114,7 @@ public class TweetRelevantesBean {
                 this.cuentaTwitter.setNumMegusta(st.getUser().getFavouritesCount());
                 this.cuentaTwitter.setNumTweets(st.getUser().getStatusesCount());
             }
-            
+
         } catch (TwitterException ex) {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
             this.listaTweets = new ArrayList<>();
@@ -120,21 +122,35 @@ public class TweetRelevantesBean {
         return "tweetsRelevantesResultados.xhtml";
     }
 
-    public void doBuscarFechas() {
-        /*SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-mm-yyyy");
+    public String doBuscarFechas() {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!fechaInicio.equals("") && !fechaFin.equals("")) {
-                Date fechaIni = formatoFecha.parse(fechaInicio);
-                Date fechaF = formatoFecha.parse(fechaFin);
-                System.out.println("BUSCANDO POR FECHAS");
-                System.out.println("busqueda ---> " + busqueda);
-                System.out.println("fechaInicio ---> " + fechaIni.toString());
-                System.out.println("fechaFin ---> " + fechaF.toString());
-                System.out.println("numMostrar ---> " + numTweetsMostrar);
-            }
+                Date fInicio = dt.parse(fechaInicio);
+                Date fFin = dt.parse(fechaFin);
+                Twitter twitter = new Twitter();
+                this.listaTweets = twitter.getTuitsCuenta(busqueda, fInicio, fFin, numTweetsMostrar);
 
-        } catch (ParseException ex) {
+                if (listaTweets.size() > 0) {
+                    Status st = listaTweets.get(0);
+                    this.cuentaTwitter = new CuentaTwitter();
+                    this.cuentaTwitter.setImgUsuario(st.getUser().getProfileImageURL());
+                    this.cuentaTwitter.setNombreUsuario(st.getUser().getName());
+                    this.cuentaTwitter.setNombreTwitterUsuario(st.getUser().getScreenName());
+                    this.cuentaTwitter.setDescripcionUsuario(st.getUser().getDescription());
+                    this.cuentaTwitter.setNumSeguidores(st.getUser().getFollowersCount());
+                    this.cuentaTwitter.setNumSiguiendo(st.getUser().getFriendsCount());
+                    this.cuentaTwitter.setNumMegusta(st.getUser().getFavouritesCount());
+                    this.cuentaTwitter.setNumTweets(st.getUser().getStatusesCount());
+                }
+                
+            }else{
+                this.listaTweets = new ArrayList<>();
+            }
+        } catch (ParseException | TwitterException ex) {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+            this.listaTweets = new ArrayList<>();
+        }
+        return "tweetsRelevantesResultados.xhtml";
     }
 }

@@ -23,7 +23,7 @@
         <link href="resources/css/customcss.css"  rel="stylesheet"/>  
     </h:head>
     <h:body>
-        <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+        <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header"><a href="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></a>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -43,10 +43,10 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>         
         </div>
 
-        <div class="container">
+        <div class="container" style="margin-top: 115px">
             <h:panelGroup rendered="#{tweetRelevantesBean.listaTweets.size() > 0}">
                 <div id="infoCuenta">
                     <div class="row">
@@ -103,7 +103,7 @@
                     </h:column>
                 </h:dataTable>
                 <div align="center">
-                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Volver a Buscar" class="btn btnAzul"></h:link>
+                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Realizar otra búsqueda" class="btn btnAzul"></h:link>
                 </div>
                 <br/>
                 <br/>
@@ -114,7 +114,7 @@
                     <div class="alert alert-warning" style="text-align: center">
                         <strong>Información: </strong> No se han encontrado resultados
                     </div>
-                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Volver a Buscar" class="btn btnAzul"></h:link>
+                    <h:link id="botonFechas" outcome="tweetRelevantes.xhtml" style="margin-right: 15px; margin-top: 34px;" value="Volver a buscar" class="btn btnAzul"></h:link>
                 </div>
             </h:panelGroup>
         </div>
