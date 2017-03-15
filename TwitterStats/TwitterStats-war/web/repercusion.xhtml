@@ -44,13 +44,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container" style="margin-top: 115px">
 
-            <div style="padding-left: 150px; width: 60%;" class="form-group">
+            <div style="padding-left: 260px; width: 70%;" class="form-group">
                 <h1 class="textTwitter">Comparador de tweet o cuentas de usuario</h1>
                 <br/>
-                
+
                 <h:form>
                     <h:panelGroup rendered="#{repercusionBean.anadir and repercusionBean.eliminar}">
                         <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir Campo" class="btn btnAzul" ></h:commandButton>   
@@ -64,7 +64,7 @@
                         <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir Campo" class="btn btnAzul" disabled="true" ></h:commandButton>   
                         <h:commandButton  action="#{repercusionBean.doEliminarCampo()}" style="margin-bottom: 10px;float: right; margin-right: 10px;" value="Eliminar Campo" class="btn btnAzul"  ></h:commandButton>   
                     </h:panelGroup>
-                                         
+
                 </h:form>
                 <label class="margintop5px" for="elemento0">Introduce dos tweets o @cuentas </label>
                 <h:form>
@@ -76,9 +76,12 @@
                     </ui:repeat>
 
                     <div class="form-group">
-                        <h:commandButton  action="#{repercusionBean.doCalcular()}" style="margin-right: 15px;" value="Calcular" class="btn btnAzul"></h:commandButton>
+                        <h:commandButton  action="#{repercusionBean.doCalcular()}" style="margin-right: 15px;" value="Calcular" class="btn btnAzul" onclick="showCargador()"></h:commandButton>
                     </div>            
                 </h:form>
+                <div id="cargador" style="display: none">
+                    <img class="imgCargador" src="resources/img/loading.gif"></img>
+                </div>
             </div>
 
             <br/>
@@ -91,10 +94,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="resources/js/repercusionJS.js" type="text/javascript"></script>
         <script>
-            $( document ).ready(function() {                
-
-                //agregarCuadro();
-            });
+                            function showCargador() {
+                                $('#cargador').show();
+                            }
         </script>
     </h:body>
 </html>
