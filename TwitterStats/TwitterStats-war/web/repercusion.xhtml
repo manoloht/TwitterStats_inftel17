@@ -22,7 +22,7 @@
         <link href="resources/css/customcss.css"  rel="stylesheet"/>  
     </h:head>
     <h:body>
-        <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+        <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header"><a href="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></a>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -30,9 +30,9 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"> <h:link outcome="tweetRelevantes" value="Tweets + Relevantes"/>
+                        <li class="tab1"> <h:link  outcome="tweetRelevantes" value="Tweets + Relevantes"/>
                         </li>
-                        <li class="tab2"><h:link outcome="repercusion" value="Repercusión" /> 
+                        <li class="tab2"><h:link class="active" outcome="repercusion" value="Repercusión" /> 
                         </li>
                         <li class="tab3"><h:link outcome="afinidad" value="Afinidad" />
                         </li>
@@ -45,14 +45,26 @@
             </div>
         </div>
         
-        <div class="container">
+        <div class="container" style="margin-top: 115px">
 
             <div style="padding-left: 150px; width: 60%;" class="form-group">
                 <h1 class="textTwitter">Comparador de tweet o cuentas de usuario</h1>
                 <br/>
                 
                 <h:form>
-                    <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir" class="btn btnAzul" ></h:commandButton>             
+                    <h:panelGroup rendered="#{repercusionBean.anadir and repercusionBean.eliminar}">
+                        <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir Campo" class="btn btnAzul" ></h:commandButton>   
+                        <h:commandButton  action="#{repercusionBean.doEliminarCampo()}" style="margin-bottom: 10px;float: right; margin-right: 10px;" value="Eliminar Campo" class="btn btnAzul" ></h:commandButton>   
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{repercusionBean.anadir and not repercusionBean.eliminar}">
+                        <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir Campo" class="btn btnAzul" ></h:commandButton>   
+                        <h:commandButton  action="#{repercusionBean.doEliminarCampo()}" style="margin-bottom: 10px;float: right; margin-right: 10px;" value="Eliminar Campo" class="btn btnAzul" disabled="true" ></h:commandButton>   
+                    </h:panelGroup> 
+                    <h:panelGroup rendered="#{not repercusionBean.anadir and repercusionBean.eliminar}">
+                        <h:commandButton  action="#{repercusionBean.doAgregarCampo()}" style="margin-bottom: 10px;float: right;" value="Añadir Campo" class="btn btnAzul" disabled="true" ></h:commandButton>   
+                        <h:commandButton  action="#{repercusionBean.doEliminarCampo()}" style="margin-bottom: 10px;float: right; margin-right: 10px;" value="Eliminar Campo" class="btn btnAzul"  ></h:commandButton>   
+                    </h:panelGroup>
+                                         
                 </h:form>
                 <label class="margintop5px" for="elemento0">Introduce dos tweets o @cuentas </label>
                 <h:form>

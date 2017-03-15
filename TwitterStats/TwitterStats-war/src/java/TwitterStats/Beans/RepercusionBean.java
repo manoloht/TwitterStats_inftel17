@@ -21,13 +21,15 @@ import javax.enterprise.context.SessionScoped;
 @Named(value = "repercusionBean")
 @SessionScoped
 public class RepercusionBean implements Serializable {
-    
+
     private List<String> elementos;
     private String elemento0;
     private String elemento1;
     private Map porcentajes;
-    private int numElementos=2;
-    
+    private int numElementos = 2;
+    private boolean anadir = true;
+    private boolean eliminar = false;
+
     /**
      * Creates a new instance of RepercusionBean
      */
@@ -35,14 +37,14 @@ public class RepercusionBean implements Serializable {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         elementos = new ArrayList<>();
-        for(int i=0; i<numElementos; i++){
+        for (int i = 0; i < numElementos; i++) {
             elementos.add("");
         }
 
     }
-    
+
     public List<String> getElementos() {
         return elementos;
     }
@@ -75,8 +77,6 @@ public class RepercusionBean implements Serializable {
         this.porcentajes = porcentajes;
     }
 
-    
-
     public int getNumElementos() {
         return numElementos;
     }
@@ -84,34 +84,70 @@ public class RepercusionBean implements Serializable {
     public void setNumElementos(int numElementos) {
         this.numElementos = numElementos;
     }
-    
-    
-    public String doCalcular(){
-        
+
+    public boolean isAnadir() {
+        return anadir;
+    }
+
+    public void setAnadir(boolean anadir) {
+        this.anadir = anadir;
+    }
+
+    public boolean isEliminar() {
+        return eliminar;
+    }
+
+    public void setEliminar(boolean eliminar) {
+        this.eliminar = eliminar;
+    }
+
+    public String doCalcular() {
+
         porcentajes = new HashMap();
         // Funcion de twitter de recuperar lista de diccionario
-        // diccionario = repercusion(elementos);
+        // porcentajes = repercusion(elementos);
         porcentajes.put(elementos.get(0), 20);
         porcentajes.put(elementos.get(1), 80);
-        
+
         // Numero de elementos de lista para la gráfica
         //numElementos=this.elementos.size();
-        numElementos=2;
+        numElementos = 2;
         return "resultadosRepercusion";
     }
 
-    
-    public String doVolver(){
-        this.numElementos=2;
+    public String doVolver() {
+        this.numElementos = 2;
         this.init();
-        
+
         return "repercusion";
     }
-    
-    
-    public String doAgregarCampo(){
-        this.elementos.add("");
-        this.numElementos +=1;
+
+    public String doAgregarCampo() {
+
+        if (this.numElementos < 7) {
+            this.elementos.add("");
+            this.numElementos += 1;
+            this.anadir = true;
+            this.eliminar = true;
+            if (this.numElementos == 7) {
+                this.eliminar = true;
+                this.anadir = false;
+            }
+        }
+        return "repercusion";
+    }
+
+    public String doEliminarCampo() {
+        if (this.numElementos > 2) {
+            this.elementos.remove(elementos.get(numElementos - 1));
+            this.numElementos -= 1;
+            this.eliminar = true;
+            this.anadir = true;
+            if (this.numElementos == 2) {
+                this.eliminar = false;
+                this.anadir = true;
+            }
+        }
         return "repercusion";
     }
 }
