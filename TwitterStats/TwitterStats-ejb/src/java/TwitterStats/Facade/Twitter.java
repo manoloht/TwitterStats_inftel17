@@ -28,6 +28,7 @@ import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.UserMentionEntity;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -365,6 +366,31 @@ public class Twitter {
     
     private Map<String,Integer> historicoDiario(List<Status> tuits, String mes){
         return null;
+    }
+    
+    public Map<String,Integer> getMenciones(String user, int estudio) throws TwitterException{
+        ResponseList res;
+        List<Status> lista = new ArrayList<>();
+        Map<String,Integer> menciones = new HashMap<>();
+        
+        for(int i=1; i<=estudio/200; i++){
+            res = twitter.getUserTimeline(user, new Paging(i,200));
+            lista.addAll(res);
+        }
+        
+        for(Status status : lista){
+            UserMentionEntity[] men = status.getUserMentionEntities();
+            for(int i=0; i<men.length; i++){
+                String mencion = men[i].getText();
+                if(menciones.containsKey(mencion)){
+                    menciones.put(mencion,menciones.get(mencion)+1);
+                }else{
+                    menciones.put(mencion,1);
+                }
+            }
+        }
+
+        return sortByValue(menciones);
     }
             
 }
