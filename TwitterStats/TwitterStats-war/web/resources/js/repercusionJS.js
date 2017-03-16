@@ -9,15 +9,14 @@ function mostrarGrafica(){
     
     var max = parseInt($('#nElementos').val());
     var i;
-    //var elementos = [];
     var data = [];
     var labels = [];
     for(i=0; i<max; i++ ){
         var elemento = '#elemento_'+i;
-        var valor = '#valor_'+i; 
-        //elementos.push({nombre:$(elemento).val(), valor:$(valor).val()});
-        data.push(parseInt($(valor).val()));
-        labels.push($(elemento).val() + ', ' + $(valor).val() + '%');
+        var valor = '#valor_'+i;
+        data.push(parseFloat($(valor).val()));
+        var dato = parseFloat($(valor).val()).toFixed(2);        
+        labels.push($(elemento).val()+', '+ dato + '%');
     }
 
     new RGraph.SVG.Pie({
@@ -39,9 +38,5 @@ function mostrarGrafica(){
 }
 
 
-function agregarCuadro(){
-    alert("holaaa");
-    
-}
-
+// .toFixed(2)
 
