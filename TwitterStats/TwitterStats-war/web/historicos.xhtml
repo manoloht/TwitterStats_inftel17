@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="ES">
+      lang="ES"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
         <meta charset="utf-8"/>
@@ -50,12 +51,60 @@
 
         <div class="container" style="margin-top: 115px;">
             <div style="padding-left: 260px; width: 70%;" class="form-group">
-                
+                <h1 class="textTwitter">Cálcula la evolución de tu cuenta</h1>
+                <br/>
+                <h:form>
+                    <div class="form-group">     
+                        <label class="margintop5px" for="cuenta">Introduce una @cuenta</label>
+                        <h:inputText value="#{historicosBean.cuenta}"  id="cuenta"  class="form-control"  required="true" label="Cuenta" style="margin-bottom: 15px;" p:placeholder="@cuenta"/>
+                        <h:message class="alert alert-warning" style="padding: 2px" for="cuenta"/>
+                    </div>
+                    <div class="row" >
+                    <div class="form-group col-lg-3">
+                        <label class="margintop5px" for="anio">Año</label>
+                        <h:selectOneMenu                            
+                            class="form-control "
+                            id="anio"
+                            value="#{historicosBean.anio}">
+                            <f:selectItems
+                                value="#{historicosBean.listaAnios}" />
+                        </h:selectOneMenu> 
+                    </div>
+                    
+                    <div class="form-group col-lg-3">
+                        <label class="margintop5px" for="mes">Mes</label>
+                        <h:selectOneMenu id="mes" required="true" value="#{historicosBean.mes}" class="form-control ">
+                            <f:selectItem itemValue="01" itemLabel="Enero" />
+                            <f:selectItem itemValue="02" itemLabel="Febrero" />
+                            <f:selectItem itemValue="03" itemLabel="Marzo" />
+                            <f:selectItem itemValue="04" itemLabel="Abril" />
+                            <f:selectItem itemValue="05" itemLabel="Mayo" />
+                            <f:selectItem itemValue="06" itemLabel="Junio" />
+                            <f:selectItem itemValue="07" itemLabel="Julio" />
+                            <f:selectItem itemValue="08" itemLabel="Agosto" />
+                            <f:selectItem itemValue="09" itemLabel="Septiembre" />
+                            <f:selectItem itemValue="10" itemLabel="Octubre" />
+                            <f:selectItem itemValue="11" itemLabel="Noviembre" />
+                            <f:selectItem itemValue="12" itemLabel="Diciembre" />
+                        </h:selectOneMenu>
+                    </div>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <h:commandButton  action="#{historicosBean.doCalcular()}" style="margin-right: 15px;" value="Calcular" class="btn btnAzul" onclick="showCargador()"></h:commandButton>
+                    </div> 
+                </h:form>                
             </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="resources/js/repercusionJS.js" type="text/javascript"></script>
+        <script>
+                            function showCargador() {
+                                $('#cargador').show();
+                            }
+        </script>
 
     </h:body>
 </html>
