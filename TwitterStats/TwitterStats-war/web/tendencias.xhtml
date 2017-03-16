@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       lang="ES">
 
     <h:head>
@@ -49,13 +50,83 @@
         </div>
 
         <div class="container" style="margin-top: 115px;">
-            <div style="padding-left: 260px; width: 70%;" class="form-group">
-                
-            </div>
+            <h:form>
+                <div style="padding-left: 260px;" class="form-group">
+                    <h1 class="textTwitter">Buscar cuenta (@ejemplo)</h1>
+                    <br/>
+                    <div class="row" style="width: 60%; padding-left: 17px;">
+                        <div class="form-group">
+                            <label for="busqueda">Introduce tu búsqueda:</label>
+                            <h:inputText value="#{tendenciasBean.busqueda}"  id="busqueda"  class="form-control"  required="true" label="Búsqueda" style="margin-bottom: 15px;"/>
+                            <h:message class="alert alert-warning" style="padding: 2px" for="busqueda"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <label id="radio1" class="radio-inline" ><input type="radio" name="tipobusqueda" checked="true"/>Estudio de Tweets</label>
+                        <label id="radio2" class="radio-inline"><input type="radio" name="tipobusqueda"/>Fechas</label>
+                    </div>
+                    <br/>
+                    <div>
+                        <div id="divEstudio">
+                            <label>Número de estudio de tweets</label>
+                            <div class="range range-primary" style="width: 57%;">
+                                <input type="range" name="rangeEstudio" min="200" max="3000" jsf:value="#{tendenciasBean.numTweetsEstudio}" step="200" onchange="updateOutput(this.value)"/>
+                                <output type="text" id="rangeElegido1">#{tendenciasBean.numTweetsEstudio}</output>
+                            </div>
+                        </div>
+                        <div id="divFechas">
+                            <label>Fecha Inicio</label>
+                            <input class="form-control" style="width: 17%" type="date" name="fechainicio" jsf:value="#{tendenciasBean.fechaInicio}"/>
+                            <label style="margin-top: 20px">Fecha Fin</label>
+                            <input class="form-control" style="width: 17%;" type="date" name="fechafin" jsf:value="#{tendenciasBean.fechaFin}"/>
+                        </div>
+                    </div>
+                    <div id="divBotonNumEstudio">
+                        <h:commandButton id="botonNumEstudio" action="#{tendenciasBean.doBuscar()}" onclick="showCargador()" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                    </div>
+                    <div id="divBotonFechas">
+                        <h:commandButton id="botonFechas" action="#{tendenciasBean.doBuscarFechas()}" onclick="showCargador()" style="margin-right: 15px; margin-top: 34px;" value="Buscar" class="btn btnAzul"></h:commandButton>
+                    </div>
+                    <div id="cargador" style="display: none">
+                        <img class="imgCargador" style="margin-left: 140px" src="resources/img/loading.gif"></img>
+                    </div>
+                </div>
+
+
+            </h:form>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <script>
+                            function updateOutput(val) {
+                                document.getElementById('rangeElegido1').value = val;
+                            }
+                            function showCargador() {
+                                $('#cargador').show();
+                            }
+        </script>
+        
+        <script>
+            $(document).ready(function () {
+                $("#divFechas").hide();
+                $("#divBotonFechas").hide();
+                $("#radio1").click(function () {
+                    $("#divFechas").hide();
+                    $("#divBotonFechas").hide();
+                    $("#divEstudio").show();
+                    $("#divBotonNumEstudio").show();
+                });
+                $("#radio2").click(function () {
+                    $("#divFechas").show();
+                    $("#divBotonFechas").show();
+                    $("#divEstudio").hide();
+                    $("#divBotonNumEstudio").hide();
+                });
+            });
+        </script>
 
     </h:body>
 </html>
