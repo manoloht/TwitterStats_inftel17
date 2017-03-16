@@ -6,7 +6,11 @@ function mostrarGrafica() {
     //var elementos = [];
     var data = [];
     var labels = [];
-    for(i=0; i<20; i++ ){
+    var iteracciones = 20;
+    if(max < iteracciones){
+        iteracciones = max;
+    }
+    for(i=0; i<iteracciones; i++ ){
         var elemento = '#elemento_'+i;
         var valor = '#valor_'+i; 
         //elementos.push({nombre:$(elemento).val(), valor:$(valor).val()});
