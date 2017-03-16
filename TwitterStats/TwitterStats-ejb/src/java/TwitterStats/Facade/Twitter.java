@@ -56,7 +56,12 @@ public class Twitter {
             lista.addAll(res);
         }
         
-        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        Collections.sort(lista, new Comparator<Status>() {
+
+            public int compare(Status s1, Status s2) {
+                return s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0;
+            }
+        });
         
         if(lista.size()>cantidad){
             return lista.subList(0, cantidad);
@@ -73,7 +78,12 @@ public class Twitter {
             lista.addAll(res);
         }
         
-        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        Collections.sort(lista, new Comparator<Status>() {
+
+            public int compare(Status s1, Status s2) {
+                return s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0;
+            }
+        });
 
         if(lista.size()>cantidad){
             return lista.subList(0, cantidad);
@@ -96,7 +106,12 @@ public class Twitter {
             res = twitter.search(q).getTweets();
         }
         
-        Collections.sort(lista, (Status s1, Status s2) -> s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0);
+        Collections.sort(lista, new Comparator<Status>() {
+
+            public int compare(Status s1, Status s2) {
+                return s1.getFavoriteCount() > s2.getFavoriteCount() ? -1 : (s1.getFavoriteCount() < s2.getFavoriteCount() ) ? 1 : 0;
+            }
+        });
         
         if(lista.size()>cantidad){
             return lista.subList(0, cantidad);
@@ -224,8 +239,7 @@ public class Twitter {
     }
     
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ){
-        List<Map.Entry<K, V>> list =
-            new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+        List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>( map.entrySet() );
         Collections.sort( list, new Comparator<Map.Entry<K, V>>()
         {
             @Override
@@ -310,8 +324,43 @@ public class Twitter {
     }
     
     private Map<String,Integer> historicoSemanal(List<Status> tuits){
-        Map<String,Integer> semanal = new HashMap<>();
-        return null;
+        String apoyo = "LMXJVSD";
+        
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare(String o1, String o2) {
+              if(apoyo.indexOf(o1)>apoyo.indexOf(o2)){
+                  return 1;
+              }else if(apoyo.indexOf(o1)<apoyo.indexOf(o2)){
+                  return -1;
+              }else{
+                  return 0;
+              }
+            }
+        };
+        
+        SortedMap<String,Integer> semanal = new TreeMap<>(comparator);
+        GregorianCalendar cal = new GregorianCalendar();
+        String[] semana = new String[]{"_","D","L","M","X","J","V","S"};
+        
+        for(int i=2; i<8; i++){
+            semanal.put(semana[i], 0);
+        }
+            semanal.put(semana[1], 0);
+        
+        
+        for(Status tuit : tuits){
+            
+            cal.setTime(tuit.getCreatedAt());
+            int sem = cal.get(Calendar.DAY_OF_WEEK);
+            
+            if(semanal.containsKey(semana[sem])){
+                semanal.put(semana[sem], semanal.get(semana[sem])+1);
+            }else{
+                semanal.put(semana[sem], 0);
+            }
+        }
+        
+        return semanal;
     }
     
     private Map<String,Integer> historicoDiario(List<Status> tuits, String mes){
