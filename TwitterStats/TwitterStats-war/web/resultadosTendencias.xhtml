@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="ES">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      lang="ES"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <meta charset="utf-8"/>
@@ -49,13 +51,73 @@
         </div>
 
         <div class="container" style="margin-top: 115px;">
-            <div style="padding-left: 260px; width: 70%;" class="form-group">
-                
-            </div>
+            <h:form>
+                <div style="padding-left: 260px;" class="form-group">
+                    <h1 class="textTwitter">Buscar cuenta (@ejemplo)</h1>
+                    <br/>
+                    <div class="row" style="width: 60%; padding-left: 17px;">
+                        <div class="form-group">
+                            <label for="busqueda">Introduce tu búsqueda:</label>
+                            <h:inputText value="#{tendenciasBean.busqueda}"  id="busqueda"  class="form-control"  required="true" label="Búsqueda" style="margin-bottom: 15px;" disabled="true"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <h:panelGroup rendered="#{tendenciasBean.busquedaNumEstudio}">
+                            <div id="divEstudio">
+                                <label>Número de estudio de tweets</label>
+                                <div class="range range-primary" style="width: 57%;">
+                                    <input style="background-color: rgb(233,233,233);" type="range" name="rangeEstudio" min="200" max="3000" jsf:value="#{tendenciasBean.numTweetsEstudio}" step="200"  disabled="true"/>
+                                    <output type="text" id="rangeElegido1">#{tendenciasBean.numTweetsEstudio}</output>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{not tendenciasBean.busquedaNumEstudio}">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label>Fecha Inicio</label>
+                                    <input class="form-control" type="date" name="fechainicio" jsf:value="#{tendenciasBean.fechaInicio}" disabled="true"/>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Fecha Fin</label>
+                                    <input class="form-control" type="date" name="fechafin" jsf:value="#{tendenciasBean.fechaFin}" disabled="true"/>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                    <br/>
+                    <h:link outcome="tendencias.xhtml" class="btn btnAzul" value="Realizar otra búsqueda"></h:link>
+                </div>
+                <h:panelGroup rendered="#{tendenciasBean.tendencias.size() > 0}">
+                    <div style="padding: 15px; margin-left: 70px;">
+                        <div style="width: 750px; height: 500px" id="chart-container"></div>
+                    </div>
+                    <br/>
+                    <br/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{tendenciasBean.tendencias.size() == 0}">
+                    <div class="alert alert-warning" style="text-align: center; width: 85%; margin-left: 50px">
+                        <strong>Información: </strong> No se han encontrado resultados
+                    </div> 
+                </h:panelGroup>
+                <div><!-- Elementos para la creación de la gráfica -->
+                    <input type="text" id="nElementos" value="#{tendenciasBean.listaKeyMapa.size()}" hidden="true"/> 
+                    <ui:repeat value="#{tendenciasBean.listaKeyMapa}" var="elemento" varStatus="estado" > 
+                        <input type="text" id="elemento_#{estado.index}" value="#{elemento}" hidden="true" /> 
+                        <input type="text" id="valor_#{estado.index}" value="#{tendenciasBean.tendencias.get(elemento)}" hidden="true" />
+                    </ui:repeat>    
+                </div>
+            </h:form>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="resources/js/RGraph.svg.common.core.js" type="text/javascript"></script>
+        <script src="resources/js/RGraph.svg.hbar.js" type="text/javascript"></script>        
+        <script src="resources/js/tendenciasJS.js" type="text/javascript"></script> 
+        <script>
+            mostrarGrafica();
+        </script> 
 
     </h:body>
 </html>

@@ -8,10 +8,14 @@ package TwitterStats.Util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import twitter4j.HashtagEntity;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.ResponseList;
@@ -156,5 +160,82 @@ public class Twitter {
         }
         
         return map;
+    }
+    
+    public Map<String,Integer> getTendencias(String user, int estudio) throws TwitterException{
+        ResponseList res;
+        List<Status> lista = new ArrayList<>();
+        Map<String,Integer> tendencias = new HashMap<>();
+        
+        for(int i=1; i<=estudio/200; i++){
+            res = twitter.getUserTimeline(user, new Paging(i,200));
+            lista.addAll(res);
+        }
+        
+        for(Status status : lista){
+            HashtagEntity[] ht = status.getHashtagEntities();
+            for(int i=0; i<ht.length; i++){
+                String hash = ht[i].getText();
+                if(tendencias.containsKey(hash)){
+                    tendencias.put(hash,tendencias.get(hash)+1);
+                }else{
+                    tendencias.put(hash,1);
+                }
+            }
+        }
+
+        return sortByValue(tendencias);
+    }
+    
+    public Map<String,Integer> getTendencias(String user, Date desde, Date hasta) throws TwitterException{
+        Map<String,Integer> tendencias = new HashMap<>();
+        
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+        Query q = new Query("from:"+user+" since:"+dt.format(desde)+" until:"+dt.format(hasta));
+        
+        q.setCount(100);
+        List<Status> lista = new ArrayList<>();
+        List<Status> res = twitter.search(q).getTweets();
+        
+        while (res.size()>1 && lista.size()<3000){
+            lista.addAll(res);
+            
+            q.setMaxId(res.get(res.size()-1).getId());
+            res = twitter.search(q).getTweets();
+        }
+        
+        for(Status status : lista){
+            HashtagEntity[] ht = status.getHashtagEntities();
+            for(int i=0; i<ht.length; i++){
+                String hash = ht[i].getText();
+                if(tendencias.containsKey(hash)){
+                    tendencias.put(hash,tendencias.get(hash)+1);
+                }else{
+                    tendencias.put(hash,1);
+                }
+            }
+        }
+
+        return sortByValue(tendencias);
+    }
+    
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ){
+        List<Map.Entry<K, V>> list =
+            new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+        {
+            @Override
+            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        } );
+
+        Map<K, V> result = new LinkedHashMap<K, V>();
+        for (Map.Entry<K, V> entry : list)
+        {
+            result.put( entry.getKey(), entry.getValue() );
+        }
+        return result;
     }
 }
