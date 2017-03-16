@@ -7,14 +7,18 @@ package TwitterStats.Facade;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.ejb.Stateful;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
@@ -239,4 +243,79 @@ public class Twitter {
         return result;
     }
     
+    public List<Map<String,Integer>> getHistorico(String user, String mes, String año) throws TwitterException{
+        List<Map<String,Integer>> resultado = new ArrayList<>();
+        GregorianCalendar calendar = new GregorianCalendar();
+        String end;
+        
+        if(mes.equals("02") && calendar.isLeapYear(Integer.parseInt(año))){
+            end = "29";
+        }else if(mes.equals("02") && !calendar.isLeapYear(Integer.parseInt(año))){
+            end = "28";
+        }else if(mes.equals("04") || mes.equals("06") || mes.equals("09") || mes.equals("11")){
+            end = "30";
+        }else{
+            end = "31";
+        }
+        
+        Query q = new Query("from:"+user+" since:"+año+"-"+mes+"-01 until:"+año+"-"+mes+"-"+end);
+        System.out.println(q.getQuery());
+        q.setCount(100);
+        List<Status> lista = new ArrayList<>();
+        
+        List<Status> res = twitter.search(q).getTweets();
+        
+        while (res.size()>1 && lista.size()<3000){
+            lista.addAll(res);
+            
+            q.setMaxId(res.get(res.size()-1).getId());
+            res = twitter.search(q).getTweets();
+        }
+        
+        resultado.add(historicoHorario(lista));
+        resultado.add(historicoSemanal(lista));
+        resultado.add(historicoDiario(lista,end));
+        
+        return resultado;
+    }
+    
+    private Map<String,Integer> historicoHorario(List<Status> tuits){
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare(String o1, String o2) {
+              if(Integer.parseInt(o1.substring(0,o1.length()-1))>Integer.parseInt(o2.substring(0,o2.length()-1))){
+                  return 1;
+              }else if(Integer.parseInt(o1.substring(0,o1.length()-1))>Integer.parseInt(o2.substring(0,o2.length()-1))){
+                  return -1;
+              }else{
+                  return 0;
+              }
+            }
+        };
+        
+        SortedMap<String,Integer> porHoras = new TreeMap<String,Integer>(comparator);
+        GregorianCalendar cal = new GregorianCalendar();
+        
+        for(int i=0; i<24; i++){
+            porHoras.put(i+"h", 0);
+        }
+        
+        for(Status tuit : tuits){
+            cal.setTime(tuit.getCreatedAt());
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            
+            porHoras.put(hour+"h", porHoras.get(hour+"h")+1);
+        }
+        System.out.println(porHoras);
+        return porHoras;
+    }
+    
+    private Map<String,Integer> historicoSemanal(List<Status> tuits){
+        Map<String,Integer> semanal = new HashMap<>();
+        return null;
+    }
+    
+    private Map<String,Integer> historicoDiario(List<Status> tuits, String mes){
+        return null;
+    }
+            
 }
