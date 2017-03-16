@@ -78,13 +78,13 @@
                             <h:message class="alert alert-warning" style="padding: 2px" for="elemento_#{estado.index}"/>
                         </div>
                     </ui:repeat>
-
+                    <br/>
                     <div class="form-group">
                         <h:commandButton  action="#{repercusionBean.doCalcular()}" style="margin-right: 15px;" value="Calcular" class="btn btnAzul" onclick="showCargador()"></h:commandButton>
                     </div>            
                 </h:form>
                 <div id="cargador" style="display: none">
-                    <img class="imgCargador" src="resources/img/loading.gif"></img>
+                    <img class="imgCargador" style="margin-left: 170px;" src="resources/img/loading.gif"></img>
                 </div>
             </div>
 

@@ -23,7 +23,7 @@ public class TendenciasBean {
     private String busqueda;
     private String fechaInicio;
     private String fechaFin;
-    private int numTweetsEstudio;
+    private int numTweetsEstudio = 1600;
     
     public TendenciasBean() {
     }
@@ -61,6 +61,10 @@ public class TendenciasBean {
     }
     
     public String doBuscar(){
+        return "resultadosTendencias.xhtml";
+    }
+    
+    public String doBuscarFechas(){
         return "resultadosTendencias.xhtml";
     }
     
