@@ -320,7 +320,7 @@ public class Twitter {
             
             porHoras.put(hour+"h", porHoras.get(hour+"h")+1);
         }
-        System.out.println(porHoras);
+
         return porHoras;
     }
     
@@ -360,12 +360,38 @@ public class Twitter {
                 semanal.put(semana[sem], 0);
             }
         }
-        
+
         return semanal;
     }
     
     private Map<String,Integer> historicoDiario(List<Status> tuits, String mes){
-        return null;
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare(String o1, String o2) {
+              if(Integer.parseInt(o1)>Integer.parseInt(o2)){
+                  return 1;
+              }else if(Integer.parseInt(o1)<Integer.parseInt(o2)){
+                  return -1;
+              }else{
+                  return 0;
+              }
+            }
+        };
+        
+        SortedMap<String,Integer> porDias = new TreeMap<String,Integer>(comparator);
+        GregorianCalendar cal = new GregorianCalendar();
+        
+        for(int i=1; i<=Integer.parseInt(mes); i++){
+            porDias.put(i+"", 0);
+        }
+        
+        for(Status tuit : tuits){
+            cal.setTime(tuit.getCreatedAt());
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            
+            porDias.put(day+"", porDias.get(day+"")+1);
+        }
+
+        return porDias;
     }
     
     public Map<String,Integer> getMenciones(String user, int estudio) throws TwitterException{
