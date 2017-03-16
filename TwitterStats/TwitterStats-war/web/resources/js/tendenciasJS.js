@@ -1,23 +1,30 @@
 
 function mostrarGrafica() {
+    
+    var max = parseInt($('#nElementos').val());
+    var i;
+    //var elementos = [];
+    var data = [];
+    var labels = [];
+    for(i=0; i<20; i++ ){
+        var elemento = '#elemento_'+i;
+        var valor = '#valor_'+i; 
+        //elementos.push({nombre:$(elemento).val(), valor:$(valor).val()});
+        data.push(parseInt($(valor).val()));
+        labels.push('#' + $(elemento).val());
+    }
 
     new RGraph.SVG.HBar({
         id: 'chart-container',
-        data: [12, 7, 26, 5, 14],
+        data: data,
         options: {
             backgroundGridBorder: false,
             yaxisColor: '#ddd',
             xaxisColor: '#ddd',
             backgroundGridHlines: false,
             colors: ['#4F81BD'],
-            vmargin: 25,
-            yaxisLabels: [
-                'I had no clean pants to wear',
-                'I thought it was Saturday',
-                'I forgot to set my alarm',
-                'It was still too dark, I thought it was nighttime',
-                'I got stuck in traffic'
-            ],
+            vmargin: 5,
+            yaxisLabels: labels,
             labelsAbove: true,
             labelsAboveColor: '#333'
         }

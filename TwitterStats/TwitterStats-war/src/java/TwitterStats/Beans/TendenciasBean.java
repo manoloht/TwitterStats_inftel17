@@ -5,8 +5,19 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Util.Twitter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -19,12 +30,14 @@ public class TendenciasBean {
     /**
      * Creates a new instance of TendenciasBean
      */
-    
     private String busqueda;
     private String fechaInicio;
     private String fechaFin;
     private int numTweetsEstudio = 1600;
-    
+    private boolean busquedaNumEstudio;
+    private Map<String, Integer> tendencias;
+    private List<String> listaKeyMapa = new ArrayList<>();
+
     public TendenciasBean() {
     }
 
@@ -59,13 +72,66 @@ public class TendenciasBean {
     public void setNumTweetsEstudio(int numTweetsEstudio) {
         this.numTweetsEstudio = numTweetsEstudio;
     }
-    
-    public String doBuscar(){
+
+    public boolean isBusquedaNumEstudio() {
+        return busquedaNumEstudio;
+    }
+
+    public void setBusquedaNumEstudio(boolean busquedaNumEstudio) {
+        this.busquedaNumEstudio = busquedaNumEstudio;
+    }
+
+    public Map<String, Integer> getTendencias() {
+        return tendencias;
+    }
+
+    public void setTendencias(Map<String, Integer> tendencias) {
+        this.tendencias = tendencias;
+    }
+
+    public List<String> getListaKeyMapa() {
+        return listaKeyMapa;
+    }
+
+    public void setListaKeyMapa(List<String> listaKeyMapa) {
+        this.listaKeyMapa = listaKeyMapa;
+    }
+
+    public String doBuscar() {
+        try {
+            this.busquedaNumEstudio = true;
+            Twitter twitter = new Twitter();
+            this.tendencias = twitter.getTendencias(this.busqueda, this.numTweetsEstudio);
+            tendencias.keySet().forEach((el) -> {
+                this.listaKeyMapa.add(el);
+            });
+        } catch (TwitterException ex) {
+            Logger.getLogger(TendenciasBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.tendencias = new HashMap<>();
+        }
         return "resultadosTendencias.xhtml";
     }
-    
-    public String doBuscarFechas(){
+
+    public String doBuscarFechas() {
+        try {
+            this.busquedaNumEstudio = false;
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+            if (!this.fechaInicio.equals("") && !this.fechaFin.equals("")) {
+                Date fInicio = dt.parse(fechaInicio);
+                Date fFin = dt.parse(fechaFin);
+                Twitter twitter = new Twitter();
+                this.tendencias = twitter.getTendencias(busqueda, fInicio, fFin);
+                tendencias.keySet().forEach((el) -> {
+                    this.listaKeyMapa.add(el);
+                });
+            } else {
+                this.tendencias = new HashMap<>();
+            }
+        } catch (ParseException | TwitterException ex) {
+            Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.tendencias = new HashMap<>();
+        }
         return "resultadosTendencias.xhtml";
     }
-    
+
 }
