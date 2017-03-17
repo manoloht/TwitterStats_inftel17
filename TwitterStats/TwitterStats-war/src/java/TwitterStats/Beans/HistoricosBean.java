@@ -5,6 +5,7 @@
  */
 package TwitterStats.Beans;
 
+import TwitterStats.Facade.Twitter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,12 @@ public class HistoricosBean {
     
     private List<String> elementosHoras;
     private Map<String, Integer> porcentajesHoras;
+    
+    private List<String> elementosSemanal;
+    private Map<String, Integer> porcentajesSemanal;
+    
+    private List<String> elementosDias;
+    private Map<String, Integer> porcentajesDias;
     
 
     
@@ -115,6 +122,46 @@ public class HistoricosBean {
         this.porcentajesHoras = porcentajesHoras;
     }
 
+    public Twitter getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(Twitter twitter) {
+        this.twitter = twitter;
+    }
+
+    public List<String> getElementosSemanal() {
+        return elementosSemanal;
+    }
+
+    public void setElementosSemanal(List<String> elementosSemanal) {
+        this.elementosSemanal = elementosSemanal;
+    }
+
+    public Map<String, Integer> getPorcentajesSemanal() {
+        return porcentajesSemanal;
+    }
+
+    public void setPorcentajesSemanal(Map<String, Integer> porcentajesSemanal) {
+        this.porcentajesSemanal = porcentajesSemanal;
+    }
+
+    public List<String> getElementosDias() {
+        return elementosDias;
+    }
+
+    public void setElementosDias(List<String> elementosDias) {
+        this.elementosDias = elementosDias;
+    }
+
+    public Map<String, Integer> getPorcentajesDias() {
+        return porcentajesDias;
+    }
+
+    public void setPorcentajesDias(Map<String, Integer> porcentajesDias) {
+        this.porcentajesDias = porcentajesDias;
+    }
+
 
     
     
@@ -123,16 +170,35 @@ public class HistoricosBean {
         this.listaMapa = new ArrayList<>();
         
         elementosHoras = new ArrayList<>();
-        porcentajesHoras = new HashMap();;
+        porcentajesHoras = new HashMap();
         
+        elementosDias = new ArrayList<>();
+        porcentajesDias = new HashMap();
+        
+        elementosSemanal = new ArrayList<>();
+        porcentajesSemanal = new HashMap();
+        
+        // Obtención de los datos de twitter
         this.listaMapa = twitter.getHistorico(this.cuenta, this.mes, this.anio);
         
+        // Datos de horas
         porcentajesHoras = this.listaMapa.get(0);
         porcentajesHoras.keySet().forEach((el) -> {
                 this.elementosHoras.add(el);
             });
         
+        // Datos de dias
+        porcentajesDias = this.listaMapa.get(2);
+        porcentajesDias.keySet().forEach((el) -> {
+                this.elementosDias.add(el);
+            });
         
+        // Datos de semanal
+        porcentajesSemanal = this.listaMapa.get(1);
+        porcentajesSemanal.keySet().forEach((el) -> {
+                this.elementosSemanal.add(el);
+            });
+
         
         return "resultadosHistoricos";
     }
