@@ -36,7 +36,7 @@ public class TendenciasBean {
     private String busqueda;
     private String fechaInicio;
     private String fechaFin;
-    private int numTweetsEstudio = 1600;
+    private int numTweetsEstudio = 400;
     private boolean busquedaNumEstudio;
     private Map<String, Integer> tendencias;
     private List<String> listaKeyMapa = new ArrayList<>();
