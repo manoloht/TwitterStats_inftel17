@@ -25,6 +25,44 @@ function mostrarGrafica(zona,datos,labels) {
     
 }
 
+function mostrarGraficaHoras() {
+    
+        // Datos horas
+    var maxHoras = parseInt($('#nElementosHoras').val());
+    var i;
+    var dataHoras = [];
+    var labelsHoras = [];
+    for(i=0; i<maxHoras; i++ ){
+        var elemento = '#elementoHoras_'+i;
+        var valor = '#valorHoras_'+i;        
+        var numValor = parseInt($(valor).val());
+        dataHoras.push(numValor);
+        labelsHoras.push($(elemento).val());
+    }
+    
+ new RGraph.SVG.Line({
+        id: 'chart-container-horas',
+        data: dataHoras,
+        options: {
+            backgroundColor: '#eee',
+            backgroundGridBorder: false,
+            backgroundGridHlines: false,
+            colors: ['#0085BD'],
+            linewidth: 3,
+            hmargin: 0,
+            gutterLeft: 50,
+            gutterBottom: 50,
+            tickmarksStyle: 'circle',
+            tickmarksLinewidth: 5,
+            tickmarksSize: 7,
+            xaxisLabels: labelsHoras,
+            xaxis: false,
+            yaxis: false,
+            yaxisDecimals: 0
+        }
+    }).trace();
+    
+}
 
 /*
  <script src="js/RGraph.svg.common.core.js" type="text/javascript"></script>
