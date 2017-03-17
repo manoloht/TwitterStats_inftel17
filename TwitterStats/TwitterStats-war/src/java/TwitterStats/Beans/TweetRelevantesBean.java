@@ -6,7 +6,6 @@
 package TwitterStats.Beans;
 
 import TwitterStats.Util.CuentaTwitter;
-import TwitterStats.Util.Twitter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import twitter4j.Status;
@@ -26,6 +26,9 @@ import twitter4j.TwitterException;
 @Named(value = "tweetRelevantesBean")
 @RequestScoped
 public class TweetRelevantesBean {
+
+    @EJB
+    private TwitterStats.Facade.Twitter twitter;
 
     /**
      * Creates a new instance of TweetRelevantesBean
@@ -99,7 +102,6 @@ public class TweetRelevantesBean {
 
     public String doBuscarNumEstudio() {
         try {
-            Twitter twitter = new Twitter();
             this.listaTweets = twitter.getTuitsCuenta(this.busqueda, this.numEstudio, this.numTweetsMostrar);
 
             if (listaTweets.size() > 0) {
@@ -128,7 +130,6 @@ public class TweetRelevantesBean {
             if (!fechaInicio.equals("") && !fechaFin.equals("")) {
                 Date fInicio = dt.parse(fechaInicio);
                 Date fFin = dt.parse(fechaFin);
-                Twitter twitter = new Twitter();
                 this.listaTweets = twitter.getTuitsCuenta(busqueda, fInicio, fFin, numTweetsMostrar);
 
                 if (listaTweets.size() > 0) {
