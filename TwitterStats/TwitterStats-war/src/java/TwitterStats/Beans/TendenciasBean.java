@@ -5,7 +5,6 @@
  */
 package TwitterStats.Beans;
 
-import TwitterStats.Util.Twitter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import twitter4j.TwitterException;
@@ -27,6 +27,9 @@ import twitter4j.TwitterException;
 @RequestScoped
 public class TendenciasBean {
 
+    @EJB
+    private TwitterStats.Facade.Twitter twitter;
+
     /**
      * Creates a new instance of TendenciasBean
      */
@@ -37,7 +40,7 @@ public class TendenciasBean {
     private boolean busquedaNumEstudio;
     private Map<String, Integer> tendencias;
     private List<String> listaKeyMapa = new ArrayList<>();
-
+    
     public TendenciasBean() {
     }
 
@@ -100,7 +103,6 @@ public class TendenciasBean {
     public String doBuscar() {
         try {
             this.busquedaNumEstudio = true;
-            Twitter twitter = new Twitter();
             this.tendencias = twitter.getTendencias(this.busqueda, this.numTweetsEstudio);
             tendencias.keySet().forEach((el) -> {
                 this.listaKeyMapa.add(el);
@@ -119,7 +121,6 @@ public class TendenciasBean {
             if (!this.fechaInicio.equals("") && !this.fechaFin.equals("")) {
                 Date fInicio = dt.parse(fechaInicio);
                 Date fFin = dt.parse(fechaFin);
-                Twitter twitter = new Twitter();
                 this.tendencias = twitter.getTendencias(busqueda, fInicio, fFin);
                 tendencias.keySet().forEach((el) -> {
                     this.listaKeyMapa.add(el);

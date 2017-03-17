@@ -5,16 +5,15 @@
  */
 package TwitterStats.Beans;
 
-import TwitterStats.Util.Twitter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import twitter4j.TwitterException;
@@ -27,6 +26,9 @@ import twitter4j.TwitterException;
 @SessionScoped
 public class RepercusionBean implements Serializable {
 
+    @EJB
+    private TwitterStats.Facade.Twitter twitter;
+
     private List<String> elementos;
     private String elemento0;
     private String elemento1;
@@ -34,7 +36,7 @@ public class RepercusionBean implements Serializable {
     private int numElementos = 2;
     private boolean anadir = true;
     private boolean eliminar = false;
-
+    
     /**
      * Creates a new instance of RepercusionBean
      */
@@ -108,7 +110,6 @@ public class RepercusionBean implements Serializable {
 
     public String doCalcular() {
 
-        Twitter twitter = new Twitter();
         porcentajes = new HashMap();
         try {
             // Funcion de twitter de recuperar lista de diccionario
