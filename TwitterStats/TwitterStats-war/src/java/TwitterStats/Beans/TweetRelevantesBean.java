@@ -34,7 +34,7 @@ public class TweetRelevantesBean {
      * Creates a new instance of TweetRelevantesBean
      */
     private String busqueda;
-    private int numEstudio = 1600;
+    private int numEstudio = 400;
     private int numTweetsMostrar = 10;
     private String fechaInicio;
     private String fechaFin;
