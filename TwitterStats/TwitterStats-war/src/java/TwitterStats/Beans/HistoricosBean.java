@@ -7,10 +7,14 @@ package TwitterStats.Beans;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -19,11 +23,23 @@ import javax.enterprise.context.RequestScoped;
 @Named(value = "historicosBean")
 @RequestScoped
 public class HistoricosBean {
+
+    @EJB
+    private TwitterStats.Facade.Twitter twitter;
     
     private String cuenta;
     private String mes;
     private String anio;
     private List<Integer> listaAnios;
+    private List<Map<String,Integer>> listaMapa;
+    
+    private List<String> elementosHoras;
+    private Map<String, Integer> porcentajesHoras;
+    
+
+    
+    
+    
     /**
      * Creates a new instance of HistoricosBean
      */
@@ -34,7 +50,7 @@ public class HistoricosBean {
     @PostConstruct
     public void init() {
         listaAnios = new ArrayList<>();        
-        this.mes = "01";  
+        this.mes = "03";  
         this.anio ="2017";        
         for(int i=2009;i<2018;i++){
             listaAnios.add(i);
@@ -75,13 +91,49 @@ public class HistoricosBean {
         this.listaAnios = listaAnios;
     }
 
+    public List<Map<String, Integer>> getListaMapa() {
+        return listaMapa;
+    }
+
+    public void setListaMapa(List<Map<String, Integer>> listaMapa) {
+        this.listaMapa = listaMapa;
+    }
+
+    public List<String> getElementosHoras() {
+        return elementosHoras;
+    }
+
+    public void setElementosHoras(List<String> elementosHoras) {
+        this.elementosHoras = elementosHoras;
+    }
+
+    public Map<String, Integer> getPorcentajesHoras() {
+        return porcentajesHoras;
+    }
+
+    public void setPorcentajesHoras(Map<String, Integer> porcentajesHoras) {
+        this.porcentajesHoras = porcentajesHoras;
+    }
+
 
     
     
-    public String doCalcular(){
-        System.out.println("+++++++++++++"+this.cuenta);
-        System.out.println("+++++++++++++"+this.mes);
-        System.out.println("+++++++++++++"+this.anio);
+    public String doCalcular() throws TwitterException{
+        
+        this.listaMapa = new ArrayList<>();
+        
+        elementosHoras = new ArrayList<>();
+        porcentajesHoras = new HashMap();;
+        
+        this.listaMapa = twitter.getHistorico(this.cuenta, this.mes, this.anio);
+        
+        porcentajesHoras = this.listaMapa.get(0);
+        porcentajesHoras.keySet().forEach((el) -> {
+                this.elementosHoras.add(el);
+            });
+        
+        
+        
         return "resultadosHistoricos";
     }
     
