@@ -3,6 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       lang="ES">
 
     <h:head>
@@ -13,49 +16,133 @@
         <meta name="author" content="Master Inftel"/>
         <link rel="shortcut icon" href="resources/img/favicon.png" />
         <title>TwitterStats - Afinidad</title>
-
-        <!-- Bootstrap Core CSS -->   
-        <link href="resources/css/bootstrap.css" rel="stylesheet"/>
+        
+        <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        
+        <!-- C3 CSS -->
+        <link rel="stylesheet" type="text/css" href="https://rawgit.com/masayuki0812/c3/master/c3.css"/>
+        
         <!-- Custom CSS -->
-        <link href="resources/css/customcss.css"  rel="stylesheet"/>  
+        <link href="resources/css/customcss.css"  rel="stylesheet"/>
+        
+        <!-- Custom Components -->
+        <h:outputStylesheet library = "css" name = "custom_components/spinner.css"/>
     </h:head>
-    <h:body>
+    <h:body style="padding-top: 115px;">
         <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
-                <div class="navbar-header"><h:link outcome="index.xhtml"><img class="fotoMenu" src="resources/img/logoWEB.png"></img></h:link>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                <div class="navbar-header">
+                    <h:link outcome="index.xhtml">
+                        <img class="fotoMenu" src="resources/img/logoWEB.png"/>
+                    </h:link>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-menubuilder">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
                     </button>
                 </div>
                 <div class="collapse navbar-collapse navbar-menubuilder">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="tab1"> <h:link outcome="tweetRelevantes" value="Tweets + Relevantes"/>
-                        </li>
-                        <li class="tab2"><h:link outcome="repercusion" value="Repercusión" /> 
-                        </li>
-                        <li class="tab3"><h:link class="active" outcome="afinidad" value="Afinidad" />
-                        </li>
-                        <li class="tab4"><h:link outcome="tendencias.xhtml" value="Tendencias"/>
-                        </li>
-                        <li class="tab1"><h:link outcome="historicos.xhtml" value="Históricos"/>
-                        </li>
+                        <li class="tab1"> <h:link                outcome="tweetRelevantes"  value="Tweets + Relevantes"/> </li>
+                        <li class="tab2"> <h:link                outcome="repercusion"      value="Repercusión"        /> </li>
+                        <li class="tab3"> <h:link class="active" outcome="afinidad"         value="Afinidad"           /> </li>
+                        <li class="tab4"> <h:link                outcome="tendencias.xhtml" value="Tendencias"         /> </li>
+                        <li class="tab1"> <h:link                outcome="historicos.xhtml" value="Históricos"         /> </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="tab5"> <h:link outcome="contacto" value="Contacta con Nosotros" />
-                        </li>
+                        <li class="tab5"> <h:link outcome="contacto" value="Contacta con Nosotros" /> </li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <div class="container" style="margin-top: 115px;">
-            <div id="cargador" align="center">
-                <img src="resources/img/loading.gif"></img>
-            </div>
-        </div>
+        <div class="container">
+            <h1 class="textTwitter col-md-12">Afinidad</h1>
+            
+            <h:form class="form-inline">
+                
+                <!-- Account (Textbox) -->
+                <div class="form-group col-md-3">
+                    <label id="account-label" class="sr-only" for="account">Cuenta</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">@</div>
+                        <h:inputText id="account" class="form-control" value="#{afinidadBean.account}"   p:aria-describedby="account-label"  required="true" p:aria-required="true" label="Nombre de cuenta"   p:placeholder="Cuenta"/>
+                    </div>
+                </div>
+                
+                <!-- Quantity (Spinner) -->
+                <div class="form-group col-md-2">
+                    <label id="quantity-label" class="sr-only" for="quantity">Cantidad</label>
+                    <div class="input-group spinner" data-trigger="spinner" style="width: 100%">
+                        <div class="input-group-addon"> <i class="fa  fa-signal"/> </div>
+                        <h:inputText id="quantity" class="form-control" value="#{afinidadBean.quantity}" p:aria-describedby="quantity-label" required="true" p:aria-required="true" label="Cantidad de Tweets"  p:placeholder="Cantidad" p:data-rule="twitter_afinidad"/>
+                        <div class="input-group-btn-vertical">
+                            <button class="btn btn-default" data-spin="up"   type="button"><i class="fa fa-caret-up"  /></button>
+                            <button class="btn btn-default" data-spin="down" type="button"><i class="fa fa-caret-down"/></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <span class="form-group col-md-1">
+                    <h:commandButton class="btn btnAzul" style="margin-right: 15px;" value="Enviar">
+                        <f:ajax execute="account quantity" onevent="drawGraph" listener="#{afinidadBean.doProcess}" render="chart"/>
+                    </h:commandButton>
+                </span>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <!-- Help button -->
+                <span class="col-md-3 col-md-offset-3 text-center">
+                    <a class="btn btn-default glyphicon glyphicon-question-sign" tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="Afinidad" style="font-size: 18px; padding: 4px 10px;" data-html="true" data-content="Shows a chart with the most mentioned users by a Twitter user in decreasing order.&lt;br/>&lt;br/>Enter the Twitter account to search and the number of tweets to search (min 200, max 3000)."/>
+                </span>
+            </h:form>
+
+            <div jsf:id="chart" class="col-md-12" style="margin-top: 20px;">
+                <!-- Chart data -->
+                <script>
+                    var data   = [
+                    <ui:repeat value="#{afinidadBean.data}" var="data" varStatus="loop">
+                        #{data} #{loop.last ? '' : ','}
+                    </ui:repeat>
+                    ];
+
+                    var labels = [
+                    <ui:repeat value="#{afinidadBean.users}" var="user" varStatus="loop">
+                        "#{user}" #{loop.last ? '' : ','}
+                    </ui:repeat>
+                    ];
+                    
+                    var cHeight = #{afinidadBean.cHeight};
+                </script>
+            </div>
+            
+        </div>
+        
+        
+        
+        <!--=========================== JAVASCRIPT ==========================-->
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+                
+        <!-- Enable Bootstrap popovers -->
+        <script>
+            $(function () {
+              $('[data-toggle="popover"]').popover({
+                  container: 'body'
+              });
+            });
+        </script>
+        
+        <script src="//d3js.org/d3.v3.js"/>
+        <script src="https://rawgit.com/masayuki0812/c3/master/c3.js"/>
+        
+        <h:outputScript library="js" name="graphs/afinidad.js"/>
+        
+        <h:outputScript library="js" name="components/spinner.js"/>
 
     </h:body>
 </html>

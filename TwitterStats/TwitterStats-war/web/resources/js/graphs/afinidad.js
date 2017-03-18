@@ -1,0 +1,28 @@
+function drawGraph() {
+    var chart = c3.generate({
+        size: {
+            height: cHeight
+        },
+        data: {
+            columns: [
+                ['Menciones'].concat(data)
+            ],
+            type: 'bar',
+            colors: {
+                Menciones: '#32CDFD'
+            }
+        },
+        bar: {
+            width: {
+                ratio: 0.5
+            }
+        },
+        axis: {
+            rotated: true,
+            x: {
+                type: 'category',
+                categories: labels
+            }
+        }
+    });
+}
