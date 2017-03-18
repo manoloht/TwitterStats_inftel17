@@ -8,6 +8,7 @@ function drawGraph() {
                 ['Menciones'].concat(data)
             ],
             type: 'bar',
+            labels: true,
             colors: {
                 Menciones: '#32CDFD'
             }
