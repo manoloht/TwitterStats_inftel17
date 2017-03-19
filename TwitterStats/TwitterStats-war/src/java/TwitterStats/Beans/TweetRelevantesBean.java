@@ -121,7 +121,7 @@ public class TweetRelevantesBean {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
             this.listaTweets = new ArrayList<>();
         }
-        return "tweetsRelevantesResultados.xhtml";
+        return "resultadosTweetsRelevantes.xhtml";
     }
 
     public String doBuscarFechas() {
@@ -152,6 +152,6 @@ public class TweetRelevantesBean {
             Logger.getLogger(TweetRelevantesBean.class.getName()).log(Level.SEVERE, null, ex);
             this.listaTweets = new ArrayList<>();
         }
-        return "tweetsRelevantesResultados.xhtml";
+        return "resultadosTweetsRelevantes.xhtml";
     }
 }
