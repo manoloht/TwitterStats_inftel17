@@ -51,7 +51,7 @@
 
         <div class="container" style="margin-top: 115px;">
             <div style="padding-left: 260px; width: 70%;" class="form-group">
-                <h1 class="textTwitter">Cálcula la evolución de tu cuenta</h1>
+                <h1 class="textTwitter">Cálcula la evolución de tu cuenta en el último mes</h1>
                 <br/>
                 <h:form>
                     <div class="form-group">     
@@ -59,7 +59,7 @@
                         <h:inputText value="#{historicosBean.cuenta}"  id="cuenta"  class="form-control"  required="true" label="Cuenta" style="margin-bottom: 15px;" disabled="true" />
                         <h:message class="alert alert-warning" style="padding: 2px" for="cuenta"/>
                     </div>
-                    <div class="row" >
+                    <!--<div class="row" >
                         <div class="form-group col-lg-3">
                             <label class="margintop5px" for="anio">Año</label>
                             <h:selectOneMenu                            
@@ -89,7 +89,7 @@
                                 <f:selectItem itemValue="12" itemLabel="Diciembre" />
                             </h:selectOneMenu>
                         </div>
-                    </div>
+                    </div>-->
                     <br/>
                     <div class="form-group">
                         <label id="semanal" class="radio-inline" ><input id="semanal" type="radio" name="grafico" checked="true"/>Semanal</label>
